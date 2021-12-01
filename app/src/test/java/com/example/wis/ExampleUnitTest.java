@@ -1,4 +1,4 @@
-package com.example.itu_wis;
+package com.example.wis;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.itu_wis;
+package com.example.wis;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.itu_wis", appContext.getPackageName());
+        assertEquals("com.example.wis", appContext.getPackageName());
     }
 }
