@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
     View ww;
     Button button_prev;
@@ -45,14 +45,17 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // Get it of calendar items
         ww = inflater.inflate(R.layout.fragment_dashboard, container, false);
         calendarRecyclerView = (RecyclerView) ww.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) ww.findViewById(R.id.monthYearTV);
 
+        // Initialize the calendar
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
 
+        //Set up buttons clicks
         button_prev = (Button) ww.findViewById(R.id.button_prev);
         button_prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        // Bottom navigation
         dashboardViewModel =
                 new ViewModelProvider(this).get(com.example.wis.ui.dashboard.DashboardViewModel.class);
 
@@ -105,7 +109,9 @@ public class DashboardFragment extends Fragment {
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
         CalendarAdapter calendarAdapter;
-        calendarAdapter = new CalendarAdapter(daysInMonth, (CalendarAdapter.OnItemListener) null);;
+
+        // idk what this is
+        calendarAdapter = new CalendarAdapter(daysInMonth, this);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
@@ -147,6 +153,7 @@ public class DashboardFragment extends Fragment {
         setMonthView();
     }
 
+    @Override
     public void onItemClick(int position, String dayText) {
         if (!dayText.equals("")) {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);

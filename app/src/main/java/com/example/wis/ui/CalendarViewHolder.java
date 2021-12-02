@@ -20,8 +20,6 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         itemView.setOnClickListener(this);
     }
 
-
-    //TODO onclick
     @Override
     public void onClick(View view) {
         onItemListener.onItemClick(getAdapterPosition(), (String) dayOfMonth.getText());

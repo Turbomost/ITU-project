@@ -1,5 +1,6 @@
 package com.example.wis;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,18 +14,19 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     EditText edtUsername;
     EditText edtPassword;
-    DatabaseHelper databaseHelper;
+    DataBaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        edtUsername = (EditText) findViewById(R.id.edtUsername);
-        edtPassword = (EditText) findViewById(R.id.edtPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtPassword = findViewById(R.id.edtPassword);
 
-        databaseHelper = new DatabaseHelper(LoginActivity.this);
+        databaseHelper = new DataBaseHelper(LoginActivity.this);
+        databaseHelper.insertSampleData(LoginActivity.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
