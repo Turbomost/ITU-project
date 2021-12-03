@@ -1,4 +1,4 @@
-package com.example.wis.ui.dashboard;
+package com.example.wis.ui.calendar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,9 +17,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wis.MainActivity;
 import com.example.wis.R;
-import com.example.wis.databinding.FragmentDashboardBinding;
+import com.example.wis.databinding.FragmentCalendarBinding;
 import com.example.wis.ui.CalendarAdapter;
 
 import java.time.LocalDate;
@@ -29,14 +28,14 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class DashboardFragment extends Fragment implements CalendarAdapter.OnItemListener {
+public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
     View ww;
     Button button_prev;
     Button button_next;
 
-    private com.example.wis.ui.dashboard.DashboardViewModel dashboardViewModel;
-    private FragmentDashboardBinding binding;
+    private com.example.wis.ui.calendar.CalendarViewModel calendarViewModel;
+    private FragmentCalendarBinding binding;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -46,7 +45,7 @@ public class DashboardFragment extends Fragment implements CalendarAdapter.OnIte
                              ViewGroup container, Bundle savedInstanceState) {
 
         // Get it of calendar items
-        ww = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        ww = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarRecyclerView = (RecyclerView) ww.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) ww.findViewById(R.id.monthYearTV);
 
@@ -75,14 +74,14 @@ public class DashboardFragment extends Fragment implements CalendarAdapter.OnIte
         });
 
         // Bottom navigation
-        dashboardViewModel =
-                new ViewModelProvider(this).get(com.example.wis.ui.dashboard.DashboardViewModel.class);
+        calendarViewModel =
+                new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        final TextView textView = binding.textCalendar;
+        calendarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
