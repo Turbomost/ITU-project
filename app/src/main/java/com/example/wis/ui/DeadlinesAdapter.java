@@ -20,17 +20,12 @@ import java.util.List;
 public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlinesAdapter.ViewHolder> {
 
     Context context;
-    List<DeadlineViewModel> deadlineList;
-    private ArrayList time,name,subject;
-    TextView colTime;
-    TextView colName;
-    TextView colSubject;
+    List<DeadlineViewModel> deadlinelist;
 
-    public DeadlinesAdapter(Context context, ArrayList time, ArrayList name, ArrayList subject){
+
+    public DeadlinesAdapter(Context context, List<DeadlineViewModel> deadlinelist){
         this.context = context;
-        this.time = time;
-        this.name = name;
-        this.subject = subject;
+        this.deadlinelist = deadlinelist;
     }
 
     @NonNull
@@ -45,21 +40,24 @@ public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlinesAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        colTime.setText(String.valueOf(time.get(position)));
-        colName.setText(String.valueOf(name.get(position)));
-        colSubject.setText(String.valueOf(subject.get(position)));
+        holder.colTime.setText(String.valueOf(deadlinelist.get(position).getDeadline_time()));
+        holder.colName.setText(String.valueOf(deadlinelist.get(position).getDeadline_name()));
+        holder.colSubject.setText(String.valueOf(deadlinelist.get(position).getSubject_name()));
     }
 
 
     @Override
     public int getItemCount() {
-        return time.size();
+        return deadlinelist.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView colTime;
+        TextView colName;
+        TextView colSubject;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            colTime = itemView.findViewById(R.id.nametxt);
-            colName = itemView.findViewById(R.id.timetxt);
+            colName = itemView.findViewById(R.id.nametxt);
+            colTime = itemView.findViewById(R.id.timetxt);
             colSubject = itemView.findViewById(R.id.subjecttxt);
         }
     }

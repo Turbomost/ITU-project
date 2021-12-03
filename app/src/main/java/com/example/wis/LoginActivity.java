@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
 
         databaseHelper = new DataBaseHelper(LoginActivity.this);
-        databaseHelper.insertSampleData(LoginActivity.this);
+        //databaseHelper.insertSampleData(LoginActivity.this);
 
         if((SharedPref.readSharedSetting(LoginActivity.this, "UserID", "-1")!="-1")){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

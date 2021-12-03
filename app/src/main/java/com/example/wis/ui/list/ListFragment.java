@@ -25,6 +25,8 @@ import com.example.wis.databinding.FragmentListBinding;
 import com.example.wis.ui.list.ListViewModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class ListFragment extends Fragment {
@@ -39,26 +41,29 @@ public class ListFragment extends Fragment {
     private ListViewModel ListViewModel;
     View view;
     DataBaseHelper databaseHelper;
-    ArrayList<String> time,name,subject;
+    //ArrayList<String> time,name,subject;
+    List<DeadlineViewModel> deadlinelist = new ArrayList<DeadlineViewModel>();
     DeadlinesAdapter deadlinesAdapter;
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        time = new ArrayList<>();
-        name = new ArrayList<>();
-        subject = new ArrayList<>();
+        //time = new ArrayList<>();
+        //name = new ArrayList<>();
+        //subject = new ArrayList<>();
+
         view = inflater.inflate(R.layout.fragment_list, container, false);
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
         databaseHelper = new DataBaseHelper(getContext());
 
         displayData();
-        deadlinesAdapter = new DeadlinesAdapter(getContext(),time,name,subject);
+        deadlinesAdapter = new DeadlinesAdapter(getContext(), deadlinelist);
         RecyclerView.setAdapter(deadlinesAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+        Collections.sort(deadlinelist,DeadlineViewModel.DeadlineDateComparator);
+        deadlinesAdapter.notifyDataSetChanged();
 
         ListViewModel =
                 new ViewModelProvider(this).get(ListViewModel.class);
@@ -88,11 +93,8 @@ public class ListFragment extends Fragment {
 
 
         while (cursor.moveToNext()){
-            time.add( cursor.getString(0));
-            name.add (cursor.getString(1));
-            subject.add( databaseHelper.getSubjectName(cursor.getInt(2)));
-
-
+            DeadlineViewModel newdeadline = new DeadlineViewModel(cursor.getString(0),cursor.getString(1), databaseHelper.getSubjectName(cursor.getInt(2)));
+            deadlinelist.add(newdeadline);
         }
 
     }

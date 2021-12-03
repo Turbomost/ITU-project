@@ -51,12 +51,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_SUBJECT_NAME + " TEXT, " + COLUMN_SUBJECT_SHORTCUT + " TEXT," + COLUMN_SUBJECT_CLASS + " TEXT)";
         sqLiteDatabase.execSQL(createTableStatement);
-        createTableStatement = "CREATE TABLE " + DEADLINE_TABLE + " (" + COLUMN_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DEADLINE_NAME + " TEXT, " + COLUMN_DEADLINE_TIME + " TEXT," + COLUMN_SUBJECT_ID + " TEXT, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        createTableStatement = "CREATE TABLE " + DEADLINE_TABLE + " (" + COLUMN_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DEADLINE_NAME + " TEXT, " + COLUMN_DEADLINE_TIME + " TEXT," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
-        createTableStatement = "CREATE TABLE " + LECTURE_TABLE + " (" + COLUMN_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_LECTURE_START + " TEXT, " + COLUMN_LECTURE_END + " TEXT," + COLUMN_LECTURE_TYPE + " TEXT," + COLUMN_SUBJECT_ID + " TEXT, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        createTableStatement = "CREATE TABLE " + LECTURE_TABLE + " (" + COLUMN_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_LECTURE_START + " TEXT, " + COLUMN_LECTURE_END + " TEXT," + COLUMN_LECTURE_TYPE + " TEXT," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + USER_SUBJECT_TABLE + " (" + COLUMN_USER_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (1, \"Signály a systémy\", \"ISS\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (2, \"Algoritmy\", \"IAL\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (3, \"Formální jazyky a překladače\", \"IFJ\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (4, \"Matematický analýza 2\", \"IMA2\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (5, \"Návrh počitačových systémů\", \"INP\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (6, \"Pravděpodobnost a statistika\", \"IPT\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (7, \"Tvorba uživatelských rozhraní\", \"ITU\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (8, \"Diskrétní matematika\", \"IDM\", \"1BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_TABLE +" VALUES (1, \"xbella01\",\"heslo123\", \"Magdaléna Bellayová\", \"2BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_TABLE +" VALUES (2, \"xmrkvi04\",\"heslo456\", \"Janko Mrkvička\", \"1BIT\")");
+        sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE +" VALUES (1, \"1. domácí úloha\",\"05-01-2022 00:00\", 2)");
+        sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE +" VALUES (2, \"2. domácí úloha\",\"10-01-2022 00:00\", 2)");
+        sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE +" VALUES (3, \"Půlsemestrální písemka\",\"13-01-2022 10:00\", 3)");
+        sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE +" VALUES (4, \"Projekt\",\"21-01-2022 00:00\", 7)");
+        sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE +" VALUES (5, \"Projekt 1\",\"11-01-2022 00:00\", 5)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (1, \"Wed 08:00\", \"Wed 10:50\", \"p\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (2, \"Fri 13:00\", \"Fri 15:50\", \"p\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (3, \"Wed 14:00\", \"Wed 16:50\", \"p\",2)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (4, \"Wed 11:00\", \"Wed 13:50\", \"p\",3)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (5, \"Mon 09:00\", \"Mon 10:50\", \"p\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (6, \"Mon 12:00\", \"Mon 13:50\", \"p\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (7, \"Thu 15:00\", \"Thu 17:50\", \"p\",7)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (8, \"Tue 10:00\", \"Tue 11:50\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE +" VALUES (9, \"Tue 12:00\", \"Tue 13:50\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (1,1,1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (2,1,2)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (3,1,3)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (4,1,4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (5,1,5)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (6,1,6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (7,1,7)");
+        sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE +" VALUES (8,2,8)");
     }
 
     @Override
@@ -473,7 +505,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public String getSubjectName(int subject_id){
-        String queryString = "SELECT " + COLUMN_SUBJECT_NAME + " FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + subject_id + ")";
+        String queryString = "SELECT " + COLUMN_SUBJECT_SHORTCUT + " FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + subject_id + ")";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(queryString, null);
@@ -522,83 +554,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertSampleData(Context context) {
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-        UserModel user = new UserModel();
-        SubjectModel subject = new SubjectModel();
-        DeadlineModel deadline = new DeadlineModel();
-        LectureModel lecture = new LectureModel();
-        UserSubjectModel usersubject = new UserSubjectModel();
-
-
-        dataBaseHelper.deleteAllSubjects();
-        dataBaseHelper.deleteAllUsers();
-        dataBaseHelper.deleteAllDeadlines();
-        dataBaseHelper.deleteAllLectures();
-        dataBaseHelper.deleteAllUserSubjects();
-
-        //pridavanie userov
-        user.setUser_id(1);
-        user.setUser_login("xbella01");
-        user.setUser_password("heslo123");
-        user.setUser_name("Magdaléna Bellayová");
-        user.setUser_class("3BIT");
-        dataBaseHelper.insertUser(user);
-
-        //pridavanie predmetov
-        subject.setSubject_id(1);
-        subject.setSubject_name("Systémy a Signály");
-        subject.setSubject_shortcut("ISS");
-        dataBaseHelper.insertSubject(subject);
-
-        subject.setSubject_id(2);
-        subject.setSubject_name("Matematicka analyza 1");
-        subject.setSubject_shortcut("IMA1");
-        dataBaseHelper.insertSubject(subject);
-
-        subject.setSubject_id(3);
-        subject.setSubject_name("Formalne jazyky");
-        subject.setSubject_shortcut("IFJ");
-        dataBaseHelper.insertSubject(subject);
-
-        //pridavanie deadlinov
-        deadline.setDeadline_id(1);
-        deadline.setDeadline_name("Polsemestralna pisomka");
-        deadline.setDeadline_time("15-10-2021 10:00:00");
-        deadline.setSubject_id(1);
-        dataBaseHelper.insertDeadline(deadline);
-
-        deadline.setDeadline_id(2);
-        deadline.setDeadline_name("Domaca uloha");
-        deadline.setDeadline_time("20-10-2021 00:00:00");
-        deadline.setSubject_id(2);
-        dataBaseHelper.insertDeadline(deadline);
-
-        //pridavanie lectures
-        lecture.setLecture_id(1);
-        lecture.setLecture_start("08:00");
-        lecture.setLecture_end("11:00");
-        lecture.setSubject_id(1);
-        dataBaseHelper.insertLecture(lecture);
-
-        lecture.setLecture_id(2);
-        lecture.setLecture_start("10:00");
-        lecture.setLecture_end("12:00");
-        lecture.setSubject_id(2);
-        dataBaseHelper.insertLecture(lecture);
-
-        //pridavanie user subjects
-        usersubject.setUser_subject_id(1);
-        usersubject.setUser_id(1);
-        usersubject.setSubject_id(1);
-        dataBaseHelper.insertUserSubject(usersubject);
-
-        usersubject.setUser_subject_id(2);
-        usersubject.setUser_id(1);
-        usersubject.setSubject_id(2);
-        dataBaseHelper.insertUserSubject(usersubject);
-
-    }
 
     public boolean checkUserExist(Context context, String username, String password) {
         /*
