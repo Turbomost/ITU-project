@@ -1,5 +1,6 @@
 package com.example.wis;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -35,12 +36,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         // Greetings
-        helloUser = (TextView) findViewById(R.id.helloUser);
+
         Bundle extras = getIntent().getExtras();
         String username = null;
         if (extras != null) {
             username = extras.getString("username");
-            helloUser.setText("Welcome " + username);
+
         }
+    }
+
+
+
+    public String getUsername (){
+        Bundle extras = getIntent().getExtras();
+        String username = null;
+        if (extras != null) {
+            username = extras.getString("username");
+
+        }
+        return username;
     }
 }

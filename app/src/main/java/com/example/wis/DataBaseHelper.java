@@ -580,6 +580,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public Cursor readAllData(){
+        String query = "SELECT * FROM " + SUBJECT_TABLE;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db!=null){
+            cursor = db.rawQuery(query,null);
+
+        }
+        return cursor;
+    }
+
+    public Cursor getUsername(String username){
+        String query = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + username + "\")";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db!=null){
+            cursor = db.rawQuery(query,null);
+
+        }
+        return cursor;
+    }
 }
 
 
