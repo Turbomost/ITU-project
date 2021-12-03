@@ -27,7 +27,7 @@ import com.example.wis.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
         //  Toast.makeText(getContext(), user_ID.toString(),Toast.LENGTH_SHORT).show();
 
         displayData();
-        customAdapter = new CustomAdapter(getContext(),login);
+        customAdapter = new CustomAdapter(getContext(),login,RecyclerView);
         RecyclerView.setAdapter(customAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
 
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

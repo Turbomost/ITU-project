@@ -1,9 +1,12 @@
 package com.example.wis;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnClickListener;
@@ -17,12 +20,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private Context context;
     private ArrayList login;
+    RecyclerView recyclerView;
+    //final View.OnClickListener onClickListener = new MyOnClickListener();
 
-    TextView logintxt;
 
-    public CustomAdapter(Context context, ArrayList login){
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+       // private LinearLayout item;
+        TextView logintxt;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+           // item = (LinearLayout)itemView.findViewById(R.id.home_item_id);
+            logintxt = itemView.findViewById(R.id.logintxt);
+
+        }
+    }
+
+    public CustomAdapter(Context context, ArrayList login, RecyclerView recyclerView){
         this.context = context;
         this.login = login;
+        this.recyclerView = recyclerView;
 
     }
     @NonNull
@@ -30,19 +46,32 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.myrow,parent,false);
-        return new MyViewHolder(view);
+        final MyViewHolder holder = new MyViewHolder(view);
+    /*    holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"text click " + String.valueOf(holder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+     */
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        logintxt.setText(login.get(position).toString());
-        logintxt.setOnClickListener(new OnClickListener() {
+        holder.logintxt.setText(login.get(position).toString());
+
+        holder.logintxt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View viewIn) {
-                Toast.makeText(context,logintxt.getText(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,holder.logintxt.getText(),Toast.LENGTH_SHORT).show();
                 return;
             }
         });
+
+
     }
 
     @Override
@@ -50,12 +79,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return login.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        //TextView logintxt;
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            logintxt = itemView.findViewById(R.id.logintxt);
+/*
+    private class MyOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int itemPosition = recyclerView.getChildAdapterPosition(v);
+            String item = login.get(itemPosition).toString();
+            Toast.makeText(context, item, Toast.LENGTH_SHORT).show();
         }
-
     }
+    */
+
 }
