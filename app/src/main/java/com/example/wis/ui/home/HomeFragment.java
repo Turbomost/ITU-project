@@ -37,16 +37,14 @@ public class HomeFragment extends Fragment {
     CustomAdapter customAdapter;
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Bundle extras = getActivity().getIntent().getExtras();
 
 
-        username = extras.getString("username");
 
-
-        /*Integer currentID = getUsername(); */
+        Integer currentID = getUsername();
         ww = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView = (RecyclerView) ww.findViewById(R.id.recyclerView);
         DB = new DataBaseHelper(getContext());
@@ -94,6 +92,10 @@ public class HomeFragment extends Fragment {
 
     }
     Integer getUsername(){
+        Bundle extras = getActivity().getIntent().getExtras();
+
+
+        username = extras.getString("username");
         Cursor cursor = DB.getUsername(username);
         currentUserID = cursor.getInt(0);
         return currentUserID;
