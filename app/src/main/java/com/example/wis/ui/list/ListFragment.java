@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wis.DeadlineViewModel;
 import com.example.wis.ui.DeadlinesAdapter;
 import com.example.wis.DataBaseHelper;
 import com.example.wis.DeadlineModel;
@@ -38,7 +39,7 @@ public class ListFragment extends Fragment {
     private ListViewModel ListViewModel;
     View view;
     DataBaseHelper databaseHelper;
-    List<DeadlineModel> deadlineList = new ArrayList<>();
+    List<DeadlineViewModel> deadlineList = new ArrayList<>();
     DeadlinesAdapter deadlinesAdapter;
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
@@ -50,8 +51,7 @@ public class ListFragment extends Fragment {
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
         databaseHelper = new DataBaseHelper(getContext());
 
-        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
-        deadlineList = databaseHelper. getUserDeadlines(user_ID);
+        displayData();
         deadlinesAdapter = new DeadlinesAdapter(getContext(),deadlineList);
         RecyclerView.setAdapter(deadlinesAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,7 +80,21 @@ public class ListFragment extends Fragment {
         binding = null;
     }
 
+    void displayData(){
+        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
+        Cursor cursor = databaseHelper.getUserDeadlines(user_ID);
 
+
+        while (cursor.moveToNext()){
+            String deadline_name = cursor.getString(0);
+            String deadline_time = cursor.getString(1);
+            String subject_name = databaseHelper.getSubjectName(cursor.getInt(2));
+
+            DeadlineViewModel newmodel = new DeadlineViewModel(deadline_name, deadline_time, subject_name);
+            deadlineList.add(newmodel);
+        }
+
+    }
 
 
 

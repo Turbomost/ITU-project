@@ -442,14 +442,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //vsetky terminy konkretneho predmetu
-    public List<DeadlineModel> getUserDeadlines(int user_id) {
+    public Cursor getUserDeadlines(int user_id) {
         List<DeadlineModel> returnList = new ArrayList<>();
 
-        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID   +  " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID   +  " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
+        /*
         if (cursor.moveToFirst()) {
             do {
                 int deadline_id = cursor.getInt(0);
@@ -466,10 +467,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             //
         }
-        cursor.close();
-        db.close();
-        return returnList;
+
+         */
+        return cursor;
     }
+
+    public String getSubjectName(int subject_id){
+        String queryString = "SELECT " + COLUMN_SUBJECT_NAME + " FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + subject_id + ")";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()) {
+            String subject_name = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return subject_name;
+        }
+        return null;
+    }
+
+
 
 
     //predmety konkretneho rocnika

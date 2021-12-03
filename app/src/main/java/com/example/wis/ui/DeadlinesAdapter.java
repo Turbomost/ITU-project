@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.DeadlineModel;
+import com.example.wis.DeadlineViewModel;
 import com.example.wis.R;
 
 import java.util.List;
@@ -16,10 +17,10 @@ import java.util.List;
 public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlineViewHolder>{
 
     Context context;
-    List<DeadlineModel> deadlineList;
+    List<DeadlineViewModel> deadlineList;
 
 
-    public DeadlinesAdapter(Context context, List<DeadlineModel> deadlineList){
+    public DeadlinesAdapter(Context context, List<DeadlineViewModel> deadlineList){
         this.context = context;
         this.deadlineList = deadlineList;
     }
@@ -38,10 +39,10 @@ public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlineViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull DeadlineViewHolder viewHolder, int position) {
-        DeadlineModel deadline = deadlineList.get(position);
+        DeadlineViewModel deadline = deadlineList.get(position);
         viewHolder.colTime.setText(String.valueOf(deadline.getDeadline_time()));
         viewHolder.colName.setText(String.valueOf(deadline.getDeadline_name()));
-        viewHolder.colSubject.setText(String.valueOf(deadline.getSubject_id()));
+        viewHolder.colSubject.setText(String.valueOf(deadline.getSubject_name()));
     }
 
     @Override
