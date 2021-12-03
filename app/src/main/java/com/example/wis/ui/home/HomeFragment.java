@@ -51,8 +51,8 @@ public class HomeFragment extends Fragment {
         login = new ArrayList<>();
 
 
-        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
-        Toast.makeText(getContext(), user_ID.toString(),Toast.LENGTH_SHORT).show();
+
+        //  Toast.makeText(getContext(), user_ID.toString(),Toast.LENGTH_SHORT).show();
 
         displayData();
         customAdapter = new CustomAdapter(getContext(),login);
@@ -86,7 +86,8 @@ public class HomeFragment extends Fragment {
     }
 
     void displayData(){
-        Cursor cursor = DB.readAllData();
+        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
+        Cursor cursor = DB.getAllUserSubjects(user_ID);
 
             while (cursor.moveToNext()){
 
@@ -95,13 +96,5 @@ public class HomeFragment extends Fragment {
             }
 
     }
-    Integer getUsername(){
-        Bundle extras = getActivity().getIntent().getExtras();
 
-
-        username = extras.getString("username");
-        Cursor cursor = DB.getUsername(username);
-        currentUserID = cursor.getInt(0);
-        return currentUserID;
-    }
 }

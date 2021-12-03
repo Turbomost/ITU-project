@@ -375,7 +375,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //vsetky predmety konkretneho usera
-    public List<SubjectModel> getAllUserSubjects(int user_id) {
+   /* public List<SubjectModel> getAllUserSubjects(int user_id) {
 
         List<SubjectModel> returnList = new ArrayList<>();
 
@@ -405,7 +405,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
 
-    }
+    } */
 
     //vsetky prednasky/cvika konkretneho usera
     public List<LectureModel> getAllUserLectures(int user_id) {
@@ -601,8 +601,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getUsername(String username){
-        String query = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + username + "\")";
+    public Cursor getUsername(Integer user_ID){
+        String query = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + user_ID + "\")";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -612,7 +612,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
-}
+
+    public Cursor getAllUserSubjects(int user_id) {
+
+        List<SubjectModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS +  " FROM " + SUBJECT_TABLE+ " INNER JOIN " +USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        return cursor;
+}       }
 
 
 
