@@ -1,9 +1,12 @@
 package com.example.wis;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     private Context context;
     private ArrayList login;
+
+    TextView logintxt;
 
     public CustomAdapter(Context context, ArrayList login){
         this.context = context;
@@ -30,7 +35,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.logintxt.setText(String.valueOf(login.get(position)));
+        logintxt.setText(login.get(position).toString());
+        logintxt.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View viewIn) {
+                Toast.makeText(context,logintxt.getText(),Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
     }
 
     @Override
@@ -39,10 +51,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView logintxt;
+        //TextView logintxt;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             logintxt = itemView.findViewById(R.id.logintxt);
         }
+
     }
 }
