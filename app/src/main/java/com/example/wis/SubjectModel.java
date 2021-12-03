@@ -7,11 +7,13 @@ public class SubjectModel {
     private int subject_id;
     private String subject_name;
     private String subject_shortcut;
+    private String subject_class;
 
-    public SubjectModel(int subject_id, String subject_name, String subject_shortcut) {
+    public SubjectModel(int subject_id, String subject_name, String subject_shortcut, String subject_class) {
         this.subject_id = subject_id;
         this.subject_name = subject_name;
         this.subject_shortcut = subject_shortcut;
+        this.subject_class = subject_class;
     }
 
     public SubjectModel() {
@@ -48,5 +50,13 @@ public class SubjectModel {
 
     public void setSubject_shortcut(String subject_shortcut) {
         this.subject_shortcut = subject_shortcut;
+    }
+
+    public String getSubject_class() {
+        return subject_class;
+    }
+
+    public void setSubject_class(String subject_class) {
+        this.subject_class = subject_class;
     }
 }

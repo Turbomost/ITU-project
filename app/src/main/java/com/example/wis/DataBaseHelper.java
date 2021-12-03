@@ -23,6 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SUBJECT_ID = "SUBJECT_ID";
     public static final String COLUMN_SUBJECT_NAME = "SUBJECT_NAME";
     public static final String COLUMN_SUBJECT_SHORTCUT = "SUBJECT_SHORTCUT";
+    public static final String COLUMN_SUBJECT_CLASS = "SUBJECT_CLASS";
 
     public static final String DEADLINE_TABLE = "DEADLINE_TABLE";
     public static final String COLUMN_DEADLINE_ID = "DEADLINE_ID";
@@ -35,6 +36,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LECTURE_END = "LECTURE_END";
     public static final String COLUMN_LECTURE_TYPE = "LECTURE_TYPE";
 
+    public static final String USER_SUBJECT_TABLE = "USER_SUBJECT_TABLE";
+    public static final String COLUMN_USER_SUBJECT_ID = "USER_SUBJECT_ID";
+
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "tables.db", null, 1);
@@ -45,13 +49,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement = "CREATE TABLE " + USER_TABLE + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_LOGIN + " TEXT, " + COLUMN_USER_PASSWORD + " TEXT, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_USER_CLASS + " TEXT)";
         sqLiteDatabase.execSQL(createTableStatement);
-        createTableStatement = "CREATE TABLE " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_SUBJECT_NAME + " TEXT, " + COLUMN_SUBJECT_SHORTCUT + " TEXT)";
+        createTableStatement = "CREATE TABLE " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_SUBJECT_NAME + " TEXT, " + COLUMN_SUBJECT_SHORTCUT + " TEXT," + COLUMN_SUBJECT_CLASS + " TEXT)";
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + DEADLINE_TABLE + " (" + COLUMN_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DEADLINE_NAME + " TEXT, " + COLUMN_DEADLINE_TIME + " TEXT," + COLUMN_SUBJECT_ID + " TEXT, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + LECTURE_TABLE + " (" + COLUMN_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_LECTURE_START + " TEXT, " + COLUMN_LECTURE_END + " TEXT," + COLUMN_LECTURE_TYPE + " TEXT," + COLUMN_SUBJECT_ID + " TEXT, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
-
+        createTableStatement = "CREATE TABLE " + USER_SUBJECT_TABLE + " (" + COLUMN_USER_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        sqLiteDatabase.execSQL(createTableStatement);
     }
 
     @Override
@@ -87,6 +92,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SUBJECT_ID, subject.getSubject_id());
         values.put(COLUMN_SUBJECT_NAME, subject.getSubject_name());
         values.put(COLUMN_SUBJECT_SHORTCUT, subject.getSubject_shortcut());
+        values.put(COLUMN_SUBJECT_CLASS, subject.getSubject_class());
 
         long insert = db.insert(SUBJECT_TABLE, null, values);
         if (insert == -1) {
@@ -129,6 +135,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertUserSubject(UserSubjectModel usersubject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_SUBJECT_ID, usersubject.getUser_subject_id());
+        values.put(COLUMN_USER_ID, usersubject.getUser_id());
+        values.put(COLUMN_SUBJECT_ID, usersubject.getSubject_id());
+
+        long insert = db.insert(USER_SUBJECT_TABLE, null, values);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(USER_TABLE, null, null);
@@ -152,6 +173,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteAllUserSubjects() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(USER_SUBJECT_TABLE, null, null);
+        db.close();
+    }
+
+    //vsetci users
     public List<UserModel> getAllUsers() {
 
         List<UserModel> returnList = new ArrayList<>();
@@ -185,6 +213,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //vsetky predmety
     public List<SubjectModel> getAllSubjects() {
 
         List<SubjectModel> returnList = new ArrayList<>();
@@ -199,8 +228,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int subject_id = cursor.getInt(0);
                 String subject_name = cursor.getString(1);
                 String subject_shortcut = cursor.getString(2);
+                String subject_class = cursor.getString(3);
 
-                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut);
+                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
                 returnList.add(newmodel);
 
             } while (cursor.moveToNext());
@@ -216,6 +246,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //vsetky terminy
     public List<DeadlineModel> getAllDeadlines() {
 
         List<DeadlineModel> returnList = new ArrayList<>();
@@ -239,7 +270,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         } else {
 
-            //NIC
+            //
         }
 
         cursor.close();
@@ -247,7 +278,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return returnList;
 
     }
+    //vsetky terminy konkretneho predmetu
+    public List<DeadlineModel> getSubjectDeadlines(int sub_id) {
+        List<DeadlineModel> returnList = new ArrayList<>();
 
+        String queryString = "SELECT * FROM " + DEADLINE_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + sub_id + ")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int deadline_id = cursor.getInt(0);
+                String deadline_name = cursor.getString(1);
+                String deadline_time = cursor.getString(2);
+                int subject_id = cursor.getInt(3);
+
+                DeadlineModel newmodel = new DeadlineModel(deadline_id, deadline_name, deadline_time, subject_id);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    //vsetky prednasky/cvika
     public List<LectureModel> getAllLectures() {
 
         List<LectureModel> returnList = new ArrayList<>();
@@ -281,6 +342,137 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //vsetky prednasky/cvika konkretneho predmetu
+    public List<LectureModel> getSubjectLectures(int sub_id) {
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + LECTURE_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + sub_id + ")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int lecture_id = cursor.getInt(0);
+                String lecture_start = cursor.getString(1);
+                String lecture_end = cursor.getString(2);
+                String lecture_type = cursor.getString(3);
+                int subject_id = cursor.getInt(4);
+
+                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    //vsetky predmety konkretneho usera
+    public List<SubjectModel> getAllUserSubjects(int user_id) {
+
+        List<SubjectModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS +  " FROM " + SUBJECT_TABLE+ " INNER JOIN " +USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int subject_id = cursor.getInt(0);
+                String subject_name = cursor.getString(1);
+                String subject_shortcut = cursor.getString(2);
+                String subject_class = cursor.getString(3);
+
+                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+
+    //vsetky prednasky/cvika konkretneho usera
+    public List<LectureModel> getAllUserLectures(int user_id) {
+
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE  + ", " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID  +  " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int lecture_id = cursor.getInt(0);
+                String lecture_start = cursor.getString(1);
+                String lecture_end = cursor.getString(2);
+                String lecture_type = cursor.getString(3);
+                int subject_id = cursor.getInt(4);
+
+                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+
+    //predmety konkretneho rocnika
+    public List<SubjectModel> getClassSubjects(String sub_class) {
+
+        List<SubjectModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = \"" + sub_class + "\")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int subject_id = cursor.getInt(0);
+                String subject_name = cursor.getString(1);
+                String subject_shortcut = cursor.getString(2);
+                String subject_class = cursor.getString(3);
+
+                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
 
     public void insertSampleData(Context context) {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
@@ -288,10 +480,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SubjectModel subject = new SubjectModel();
         DeadlineModel deadline = new DeadlineModel();
         LectureModel lecture = new LectureModel();
+        UserSubjectModel usersubject = new UserSubjectModel();
+
 
         dataBaseHelper.deleteAllSubjects();
         dataBaseHelper.deleteAllUsers();
         dataBaseHelper.deleteAllDeadlines();
+        dataBaseHelper.deleteAllLectures();
+        dataBaseHelper.deleteAllUserSubjects();
 
         //pridavanie userov
         user.setUser_id(1);
@@ -310,6 +506,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         subject.setSubject_id(2);
         subject.setSubject_name("Matematicka analyza 1");
         subject.setSubject_shortcut("IMA1");
+        dataBaseHelper.insertSubject(subject);
+
+        subject.setSubject_id(3);
+        subject.setSubject_name("Formalne jazyky");
+        subject.setSubject_shortcut("IFJ");
         dataBaseHelper.insertSubject(subject);
 
         //pridavanie deadlinov
@@ -338,7 +539,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         lecture.setSubject_id(2);
         dataBaseHelper.insertLecture(lecture);
 
+        //pridavanie user subjects
+        usersubject.setUser_subject_id(1);
+        usersubject.setUser_id(1);
+        usersubject.setSubject_id(1);
+        dataBaseHelper.insertUserSubject(usersubject);
 
+        usersubject.setUser_subject_id(2);
+        usersubject.setUser_id(1);
+        usersubject.setSubject_id(2);
+        dataBaseHelper.insertUserSubject(usersubject);
 
     }
 
