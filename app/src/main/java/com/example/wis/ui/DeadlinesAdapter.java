@@ -30,7 +30,8 @@ public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlineViewHolder>{
     @NonNull
     @Override
     public DeadlineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(i, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.myrow,parent,false);
         DeadlineViewHolder viewHolder = new DeadlineViewHolder(view);
         return viewHolder;
     }
@@ -38,9 +39,9 @@ public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlineViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull DeadlineViewHolder viewHolder, int position) {
         DeadlineModel deadline = deadlineList.get(position);
-        viewHolder.colTime.setText(deadline.getDeadline_time());
-        viewHolder.colName.setText(deadline.getDeadline_name());
-        viewHolder.colSubject.setText(deadline.getSubject_id());
+        viewHolder.colTime.setText(String.valueOf(deadline.getDeadline_time()));
+        viewHolder.colName.setText(String.valueOf(deadline.getDeadline_name()));
+        viewHolder.colSubject.setText(String.valueOf(deadline.getSubject_id()));
     }
 
     @Override
