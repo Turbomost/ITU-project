@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.R;
-import com.example.wis.databinding.FragmentCalendarBinding;
+import com.example.wis.databinding.FragmentWeekViewBinding;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,26 +30,29 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
 
     Button button_prev;
     Button button_next;
+    Button button_new_event;
     View view;
 
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
     private com.example.wis.ui.calendar.CalendarViewModel WeekViewModel;
-    private FragmentCalendarBinding binding;
+    private FragmentWeekViewBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         // Get it of calendar items
-        view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        view = inflater.inflate(R.layout.fragment_week_view, container, false);
         calendarRecyclerView = (RecyclerView) view.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
+        CalendarUtils.selectedDate = LocalDate.now();
+        eventListView =view.findViewById(R.id.eventListView);
 
         // Initialize the calendar
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_week_view);
+        //tContentView(R.layout.fragment_week_view);
         initWidgets();
         setWeekView();
 
@@ -69,11 +72,20 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
             }
         });
 
+        button_new_event = (Button) view.findViewById(R.id.button_new_event);
+        button_new_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EventEditActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Bottom navigation
         WeekViewModel =
                 new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
 
-        binding = FragmentCalendarBinding.inflate(inflater, container, false);
+        binding = FragmentWeekViewBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textCalendar;
@@ -91,7 +103,7 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
     private void initWidgets() {
         calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView);
         monthYearText = view.findViewById(R.id.monthYearTV);
-        eventListView = view.findViewById(R.id.eventListView);
+        eventListView =view.findViewById(R.id.eventListView);
     }
 
     private void setWeekView() {
@@ -132,10 +144,4 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
     }
-
-    /*private void moveToFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-
-    }*/
 }

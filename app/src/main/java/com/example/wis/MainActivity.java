@@ -1,6 +1,5 @@
 package com.example.wis;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_calendar, R.id.navigation_list)
+                R.id.navigation_home, R.id.navigation_calendar, R.id.navigation_Week, R.id.navigation_list)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -45,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-    public String getUsername (){
+    public String getUsername() {
         Bundle extras = getIntent().getExtras();
         String username = null;
         if (extras != null) {

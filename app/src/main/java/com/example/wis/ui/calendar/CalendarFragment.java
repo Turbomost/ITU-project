@@ -29,13 +29,12 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     View view;
     Button button_prev;
     Button button_next;
-    Button button_weekly;
 
+    private CalendarAdapter.OnFragmentInteractionListener mListener;
     private com.example.wis.ui.calendar.CalendarViewModel calendarViewModel;
     private FragmentCalendarBinding binding;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private LocalDate selectedDate;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,14 +67,6 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
                 nextMonthAction(v);
             }
         });
-/*
-        button_weekly = (Button) view.findViewById(R.id.button_weekly);
-        button_weekly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(this, WeekViewActivity.class));
-            }
-        });*/
 
         // Bottom navigation
         calendarViewModel =
@@ -134,12 +125,6 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
             setMonthView();
         }
     }
-
-    /*private void moveToFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-
-    }*/
 }
 
 

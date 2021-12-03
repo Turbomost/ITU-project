@@ -3,6 +3,7 @@
     <string name="title_activity_bottom">Bottom</string>
     <string name="title_home">Home</string>
     <string name="title_calendar">Calendar</string>
+    <string name="title_Week">Week</string>
     <string name="title_list">List</string>
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>

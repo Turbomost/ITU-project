@@ -10,6 +10,10 @@
         android:id="@+id/navigation_calendar"
         android:icon="@drawable/ic_calendar_black"
         android:title="@string/title_calendar" />
+    <item
+        android:id="@+id/navigation_Week"
+        android:icon="@drawable/ic_week_black"
+        android:title="@string/title_Week" />
 
     <item
         android:id="@+id/navigation_list"

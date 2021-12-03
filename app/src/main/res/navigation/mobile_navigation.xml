@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.wis.ui.home.HomeFragment"
@@ -16,7 +17,11 @@
         android:name="com.example.wis.ui.calendar.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
-
+    <fragment
+        android:id="@+id/navigation_Week"
+        android:name="com.example.wis.ui.calendar.WeekViewActivity"
+        android:label="@string/title_Week"
+        tools:layout="@layout/fragment_week_view" />
     <fragment
         android:id="@+id/navigation_list"
         android:name="com.example.wis.ui.list.ListFragment"
