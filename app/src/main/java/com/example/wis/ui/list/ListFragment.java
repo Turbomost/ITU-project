@@ -39,20 +39,22 @@ public class ListFragment extends Fragment {
     private ListViewModel ListViewModel;
     View view;
     DataBaseHelper databaseHelper;
-    List<DeadlineViewModel> deadlineList = new ArrayList<>();
+    ArrayList<String> time,name,subject;
     DeadlinesAdapter deadlinesAdapter;
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
+        time = new ArrayList<>();
+        name = new ArrayList<>();
+        subject = new ArrayList<>();
         view = inflater.inflate(R.layout.fragment_list, container, false);
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
         databaseHelper = new DataBaseHelper(getContext());
 
         displayData();
-        deadlinesAdapter = new DeadlinesAdapter(getContext(),deadlineList);
+        deadlinesAdapter = new DeadlinesAdapter(getContext(),time,name,subject);
         RecyclerView.setAdapter(deadlinesAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -86,12 +88,11 @@ public class ListFragment extends Fragment {
 
 
         while (cursor.moveToNext()){
-            String deadline_name = cursor.getString(0);
-            String deadline_time = cursor.getString(1);
-            String subject_name = databaseHelper.getSubjectName(cursor.getInt(2));
+            time.add( cursor.getString(0));
+            name.add (cursor.getString(1));
+            subject.add( databaseHelper.getSubjectName(cursor.getInt(2)));
 
-            DeadlineViewModel newmodel = new DeadlineViewModel(deadline_name, deadline_time, subject_name);
-            deadlineList.add(newmodel);
+
         }
 
     }
