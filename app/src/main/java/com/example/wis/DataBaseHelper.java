@@ -342,7 +342,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean checkUserExist(String username, String password) {
+    public boolean checkUserExist(Context context, String username, String password) {
         /*
         String[] columns = {"username"};
         SQLiteDatabase db = this.getWritableDatabase();
@@ -364,6 +364,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         if (count > 0) {
+            SharedPref.saveSharedSetting(context, "SharedPref", "true");
             return true;
         } else {
             return false;

@@ -28,10 +28,16 @@ public class LoginActivity extends AppCompatActivity {
         databaseHelper = new DataBaseHelper(LoginActivity.this);
         databaseHelper.insertSampleData(LoginActivity.this);
 
+        if(Boolean.valueOf(SharedPref.readSharedSetting(LoginActivity.this, "SharedPref", "false"))){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("username", edtUsername.getText().toString());
+            startActivity(intent);
+        }
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isExist = databaseHelper.checkUserExist(edtUsername.getText().toString(), edtPassword.getText().toString());
+                boolean isExist = databaseHelper.checkUserExist(LoginActivity.this,edtUsername.getText().toString(), edtPassword.getText().toString());
 
                 if(isExist){
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -46,4 +52,5 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
 }
