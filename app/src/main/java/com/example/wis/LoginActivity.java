@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         databaseHelper = new DataBaseHelper(LoginActivity.this);
         databaseHelper.insertSampleData(LoginActivity.this);
 
-        if(Boolean.valueOf(SharedPref.readSharedSetting(LoginActivity.this, "SharedPref", "false"))){
+        if((SharedPref.readSharedSetting(LoginActivity.this, "UserID", "-1")!="-1")){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("username", edtUsername.getText().toString());
             startActivity(intent);

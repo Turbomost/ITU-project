@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.CustomAdapter;
 import com.example.wis.DataBaseHelper;
+import com.example.wis.LoginActivity;
 import com.example.wis.MainActivity;
 import com.example.wis.R;
+import com.example.wis.SharedPref;
 import com.example.wis.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -42,13 +44,15 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-
-
-        Integer currentID = getUsername();
+        // Integer currentID = getUsername();
         ww = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView = (RecyclerView) ww.findViewById(R.id.recyclerView);
         DB = new DataBaseHelper(getContext());
         login = new ArrayList<>();
+
+
+        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
+        Toast.makeText(getContext(), user_ID.toString(),Toast.LENGTH_SHORT).show();
 
         displayData();
         customAdapter = new CustomAdapter(getContext(),login);

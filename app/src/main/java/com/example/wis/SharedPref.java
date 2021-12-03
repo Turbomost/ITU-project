@@ -16,7 +16,7 @@ public class SharedPref {
         SharedPreferences sharedPref = ctx.getSharedPreferences(FileName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(settingName, settingValue);
-            editor.apply();
+        editor.apply();
         }
 
 }

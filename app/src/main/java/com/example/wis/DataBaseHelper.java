@@ -567,18 +567,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
-        int count = cursor.getCount();
+        if (cursor.moveToFirst()) {
+            int user_id = cursor.getInt(0);
+            SharedPref.saveSharedSetting(context, "UserID", Integer.toString(user_id));
+            cursor.close();
+            db.close();
+            return true;
+        } else {
+            cursor.close();
+            db.close();
+            return false;
+        }
 
-        cursor.close();
-        close();
-        db.close();
-
+        /*
         if (count > 0) {
             SharedPref.saveSharedSetting(context, "SharedPref", "true");
             return true;
         } else {
             return false;
         }
+        */
     }
 
     public Cursor readAllData(){
