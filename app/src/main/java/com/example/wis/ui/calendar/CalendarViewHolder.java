@@ -11,6 +11,7 @@ import com.example.wis.R;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+// ViewHolder for calendar
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public final View parentView;
     public final TextView dayOfMonth;
@@ -26,6 +27,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         this.days = days;
     }
 
+    // Calls onItemClick function which returns clicked date
     @Override
     public void onClick(View view) {
         onItemListener.onItemClick(getAdapterPosition(), days.get(getAdapterPosition()));

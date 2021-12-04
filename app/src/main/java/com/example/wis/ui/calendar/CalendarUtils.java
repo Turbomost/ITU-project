@@ -9,25 +9,30 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Locale;
 
+// Calendar functions
 public class CalendarUtils {
     public static LocalDate selectedDate;
 
+    // Date format
     public static String formattedDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         return date.format(formatter);
     }
 
+    // Time format
     public static String formattedTime(LocalTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         return time.format(formatter);
     }
 
+    // Return month from given date
     public static String monthYearFromDate(LocalDate date) {
         DateTimeFormatterBuilder formatter = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("MMMM yyyy");
         DateTimeFormatter f = formatter.toFormatter(Locale.ENGLISH);
         return date.format(f);
     }
 
+    // Return array of days in month by given date
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
@@ -46,6 +51,7 @@ public class CalendarUtils {
         return daysInMonthArray;
     }
 
+    // Return array of days in week by given date
     public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
         ArrayList<LocalDate> days = new ArrayList<>();
         LocalDate current = sundayForDate(selectedDate);
@@ -58,6 +64,7 @@ public class CalendarUtils {
         return days;
     }
 
+    // Return first sunday before given date
     private static LocalDate sundayForDate(LocalDate current) {
         LocalDate oneWeekAgo = current.minusWeeks(1);
 

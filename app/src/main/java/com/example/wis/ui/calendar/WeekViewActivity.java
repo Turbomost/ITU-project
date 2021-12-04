@@ -48,11 +48,10 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         calendarRecyclerView = (RecyclerView) view.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
         CalendarUtils.selectedDate = LocalDate.now();
-        eventListView =view.findViewById(R.id.eventListView);
+        eventListView = view.findViewById(R.id.eventListView);
 
         // Initialize the calendar
         super.onCreate(savedInstanceState);
-        //tContentView(R.layout.fragment_week_view);
         initWidgets();
         setWeekView();
 
@@ -103,7 +102,7 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
     private void initWidgets() {
         calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView);
         monthYearText = view.findViewById(R.id.monthYearTV);
-        eventListView =view.findViewById(R.id.eventListView);
+        eventListView = view.findViewById(R.id.eventListView);
     }
 
     private void setWeekView() {

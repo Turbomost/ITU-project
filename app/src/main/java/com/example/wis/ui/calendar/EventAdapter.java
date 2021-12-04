@@ -1,6 +1,7 @@
 package com.example.wis.ui.calendar;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,15 @@ import com.example.wis.R;
 
 import java.util.List;
 
-public class EventAdapter extends ArrayAdapter<Event>
-{
-    public EventAdapter(@NonNull Context context, List<Event> events)
-    {
+// Adapter for events
+public class EventAdapter extends ArrayAdapter<Event> {
+    public EventAdapter(@NonNull Context context, List<Event> events) {
         super(context, 0, events);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-    {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Event event = getItem(position);
 
         if (convertView == null)
@@ -32,8 +31,12 @@ public class EventAdapter extends ArrayAdapter<Event>
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
 
-        String eventTitle = event.getName() +" "+ CalendarUtils.formattedTime(event.getTime());
-        eventCellTV.setText(eventTitle);
+        // Printing format for events
+        String eventTitle = "<font color=#00A9E0><b>" + event.getName() + "</b></font>" +
+                System.getProperty("line.separator") + "\t" + "<font color=#000000>" +
+                CalendarUtils.formattedTime(event.getTime()) +
+                " - " + CalendarUtils.formattedTime(event.getTime2()) + "</font>";
+        eventCellTV.setText(Html.fromHtml(eventTitle));
         return convertView;
     }
 }

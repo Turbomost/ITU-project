@@ -13,7 +13,9 @@ import com.example.wis.R;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+// Adapter for calendar
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
+
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
 
@@ -55,9 +57,5 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     public interface OnItemListener {
         void onItemClick(int position, LocalDate date);
-    }
-
-    public interface OnFragmentInteractionListener {
-        public void changeFragment(int id);
     }
 }

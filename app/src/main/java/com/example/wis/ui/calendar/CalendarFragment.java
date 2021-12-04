@@ -24,13 +24,15 @@ import com.example.wis.databinding.FragmentCalendarBinding;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
+// Fragment for monthly calendar
+// Currently without further usage
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
     View view;
     Button button_prev;
     Button button_next;
 
-    private CalendarAdapter.OnFragmentInteractionListener mListener;
     private com.example.wis.ui.calendar.CalendarViewModel calendarViewModel;
     private FragmentCalendarBinding binding;
     private TextView monthYearText;
