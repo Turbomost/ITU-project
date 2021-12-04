@@ -18,7 +18,7 @@
 
             <TextView
                 android:id="@+id/logintxt"
-                android:layout_width="300dp"
+                android:layout_width="378dp"
                 android:layout_height="45dp"
                 android:text="1"
                 android:textSize="20sp"
