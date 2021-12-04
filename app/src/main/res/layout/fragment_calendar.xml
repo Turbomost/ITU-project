@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="?android:attr/selectableItemBackground"
             android:text="@string/back"
             android:textColor="@color/red"
             android:textSize="20sp"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="?android:attr/selectableItemBackground"
             android:onClick="onClick"
             android:text="@string/forward"
             android:textColor="@color/red"
@@ -124,7 +124,27 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="270dp" />
+
+    <Button
+        android:id="@+id/button_new_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="New Event"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/eventListView"
+        android:layout_width="match_parent"
+        android:layout_height="274dp"
+        android:layout_weight="5"
+        android:singleLine="false">
+
+    </ListView>
 
     <TextView
         android:id="@+id/text_calendar"
