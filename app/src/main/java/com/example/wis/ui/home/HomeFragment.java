@@ -62,7 +62,6 @@ public class HomeFragment extends Fragment{
 
 
 
-
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 

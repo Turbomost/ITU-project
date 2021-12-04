@@ -24,10 +24,14 @@ import com.example.wis.R;
 import com.example.wis.databinding.FragmentListBinding;
 import com.example.wis.ui.list.ListViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ListFragment extends Fragment {
 
@@ -91,10 +95,21 @@ public class ListFragment extends Fragment {
         Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
         Cursor cursor = databaseHelper.getUserDeadlines(user_ID);
 
-
         while (cursor.moveToNext()){
             DeadlineViewModel newdeadline = new DeadlineViewModel(cursor.getString(0),cursor.getString(1), databaseHelper.getSubjectName(cursor.getInt(2)));
-            deadlinelist.add(newdeadline);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+            try {
+                Date date = format.parse(newdeadline.getDeadline_time());
+                String str_current_date = format.format(new Date());
+                Date current_date = format.parse(str_current_date);
+                if (!(current_date.after(date))){
+                    deadlinelist.add(newdeadline);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
     }

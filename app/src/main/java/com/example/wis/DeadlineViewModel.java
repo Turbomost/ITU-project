@@ -21,7 +21,7 @@ public class DeadlineViewModel {
         public int compare(DeadlineViewModel o1, DeadlineViewModel o2) {
             String date1 = o1.deadline_time;
             String date2 = o2.deadline_time;
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 Date final_date1 = format.parse(date1);
                 Date final_date2 = format.parse(date2);
