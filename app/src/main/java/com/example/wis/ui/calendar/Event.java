@@ -16,12 +16,14 @@ public class Event {
     private LocalDate date;
     private LocalTime time;
     private LocalTime time2;
+    //private int eventType;
 
-    public Event(String name, LocalDate date, LocalTime time, LocalTime time2) {
+    public Event(String name, LocalDate date, LocalTime time, LocalTime time2/*, int eventType*/) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.time2 = time2;
+       // this.eventType = eventType;
     }
 
     // Return list of events for given date
