@@ -1,16 +1,21 @@
 package com.example.wis.ui.calendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import com.example.wis.LoginActivity;
+import com.example.wis.MainActivity;
 import com.example.wis.R;
+import com.example.wis.SharedPref;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -35,6 +40,19 @@ public class EventEditActivity extends AppCompatActivity {
         eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
         eventTimeTV.setText(CalendarUtils.formattedTime(time));
         eventTimeTV2.setText(CalendarUtils.formattedTime(time2));
+
+        Toolbar toolbar = findViewById(R.id.topBar);
+        setSupportActionBar(toolbar);
+
+        ImageButton btn_logout = (ImageButton) findViewById(R.id.imageButton2);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPref.saveSharedSetting(EventEditActivity.this, "UserID", Integer.toString(-1));
+                Intent intent = new Intent(EventEditActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     // Link objects
