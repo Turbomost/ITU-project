@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".ui.calendar.EventEditActivity"></activity>
+        <activity android:name=".ExcerciseActivity"></activity>
         <activity
             android:exported="true"
             android:name=".LoginActivity">

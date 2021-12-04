@@ -2,6 +2,7 @@ package com.example.wis;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.wis.ui.calendar.EventEditActivity;
 
 import java.util.ArrayList;
 
@@ -66,7 +69,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.logintxt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View viewIn) {
-                Toast.makeText(context,holder.logintxt.getText(),Toast.LENGTH_SHORT).show();
+
+              //Toast.makeText(context,holder.logintxt.getText(),Toast.LENGTH_SHORT);
+
+              CharSequence c = holder.logintxt.getText().toString();
+
+                Intent intent = new Intent(context, ExcerciseActivity.class);
+                intent.putExtra("subject_name",c);
+                context.startActivity(intent);
+
+
+
+                //Toast.makeText(context, c.toString(), Toast.LENGTH_SHORT).show();
+
                 return;
             }
         });
