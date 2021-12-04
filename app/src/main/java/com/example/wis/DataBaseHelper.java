@@ -39,6 +39,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_SUBJECT_TABLE = "USER_SUBJECT_TABLE";
     public static final String COLUMN_USER_SUBJECT_ID = "USER_SUBJECT_ID";
 
+    public static final String USER_DEADLINE_TABLE = "USER_DEADLINE_TABLE";
+    public static final String COLUMN_USER_DEADLINE_ID = "USER_DEADLINE_ID";
+    public static final String COLUMN_USER_DEADLINE_STATUS = "USER_DEADLINE_STATUS";
+
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "tables.db", null, 1);
@@ -57,6 +61,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + USER_SUBJECT_TABLE + " (" + COLUMN_USER_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
+        createTableStatement = "CREATE TABLE " + USER_DEADLINE_TABLE + " (" + COLUMN_USER_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER,"+ COLUMN_DEADLINE_ID + " INTEGER," + COLUMN_USER_DEADLINE_STATUS + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_DEADLINE_ID + ") REFERENCES " + DEADLINE_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        sqLiteDatabase.execSQL(createTableStatement);
+
         sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (1, \"Signály a systémy\", \"ISS\", \"2BIT\")");
         sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (2, \"Algoritmy\", \"IAL\", \"2BIT\")");
         sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (3, \"Formální jazyky a překladače\", \"IFJ\", \"2BIT\")");
@@ -97,6 +104,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SUBJECT_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DEADLINE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + LECTURE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_SUBJECT_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_DEADLINE_TABLE);
         onCreate(sqLiteDatabase);
 
     }
@@ -182,6 +191,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    public boolean insertUserDeadline(UserDeadlineModel userdeadline) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_DEADLINE_ID, userdeadline.getUser_deadline_id());
+        values.put(COLUMN_USER_ID, userdeadline.getUser_id());
+        values.put(COLUMN_DEADLINE_ID, userdeadline.getDeadline_id());
+        values.put(COLUMN_USER_DEADLINE_STATUS, userdeadline.getUser_deadline_status());
+
+        long insert = db.insert(USER_DEADLINE_TABLE, null, values);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public void updateUserDeadlineStatus(int user_id, int deadline_id, int status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String queryString = "SELECT * FROM " + USER_DEADLINE_TABLE + " WHERE (" + COLUMN_USER_ID + " = \"" + user_id + "\") AND (" + COLUMN_DEADLINE_ID + " = \"" + deadline_id + "\")";
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()) {
+            values.put(COLUMN_USER_DEADLINE_STATUS, status);
+            db.update(USER_DEADLINE_TABLE, values,
+                    COLUMN_USER_ID + " = ? AND " + COLUMN_DEADLINE_ID + " = ?",
+                    new String[]{String.valueOf(user_id),String.valueOf(deadline_id)});
+        }
+        else{
+            values.put(COLUMN_USER_ID, user_id);
+            values.put(COLUMN_DEADLINE_ID, deadline_id);
+            values.put(COLUMN_USER_DEADLINE_STATUS, status);
+            db.insert(USER_DEADLINE_TABLE, null, values);
+        }
+
+    }
+
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(USER_TABLE, null, null);
@@ -210,6 +255,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.delete(USER_SUBJECT_TABLE, null, null);
         db.close();
     }
+    public void deleteAllUserDeadlines() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(USER_DEADLINE_TABLE, null, null);
+        db.close();
+    }
+
 
     //vsetci users
     public List<UserModel> getAllUsers() {
@@ -406,6 +457,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
 
+    public int getUserDeadlineStatus(int user_id, int deadline_id) {
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + COLUMN_USER_DEADLINE_STATUS + " FROM " + USER_DEADLINE_TABLE + " WHERE (" + COLUMN_USER_ID + " = \"" + user_id + "\") AND (" + COLUMN_DEADLINE_ID + " = \"" + deadline_id + "\")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            Integer status = cursor.getInt(0);
+            cursor.close();
+            db.close();
+            return status;
+        }
+        return 0;
+    }
+
+
+
+
+
+
     //vsetky predmety konkretneho usera
    /* public List<SubjectModel> getAllUserSubjects(int user_id) {
 
@@ -477,7 +550,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor getUserDeadlines(int user_id) {
         List<DeadlineModel> returnList = new ArrayList<>();
 
-        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID   +  " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID   +  " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);

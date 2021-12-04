@@ -11,14 +11,19 @@ import java.util.Date;
 import java.util.List;
 
 public class DeadlineViewModel {
+    private int deadline_id;
     private String deadline_name;
     private String deadline_time;
     private String subject_name;
+    private int deadline_status;
 
-    public DeadlineViewModel(String deadline_name, String deadline_time, String subject_name) {
+
+    public DeadlineViewModel(int deadline_id, String deadline_name, String deadline_time, String subject_name, int deadline_status) {
+        this.deadline_id = deadline_id;
         this.deadline_name = deadline_name;
         this.deadline_time = deadline_time;
         this.subject_name = subject_name;
+        this.deadline_status = deadline_status;
     }
 
     public DeadlineViewModel() {
@@ -49,7 +54,7 @@ public class DeadlineViewModel {
         Cursor cursor = databaseHelper.getUserDeadlines(user_ID);
 
         while (cursor.moveToNext()){
-            DeadlineViewModel newdeadline = new DeadlineViewModel(cursor.getString(0),cursor.getString(1), databaseHelper.getSubjectName(cursor.getInt(2)));
+            DeadlineViewModel newdeadline = new DeadlineViewModel(cursor.getInt(0), cursor.getString(1),cursor.getString(2), databaseHelper.getSubjectName(cursor.getInt(3)),databaseHelper.getUserDeadlineStatus(user_ID,cursor.getInt(0)));
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
             try {
@@ -90,5 +95,21 @@ public class DeadlineViewModel {
 
     public void setSubject_name(String subject_name) {
         this.subject_name = subject_name;
+    }
+
+    public int getDeadline_status() {
+        return deadline_status;
+    }
+
+    public void setDeadline_status(int deadline_status) {
+        this.deadline_status = deadline_status;
+    }
+
+    public int getDeadline_id() {
+        return deadline_id;
+    }
+
+    public void setDeadline_id(int deadline_id) {
+        this.deadline_id = deadline_id;
     }
 }
