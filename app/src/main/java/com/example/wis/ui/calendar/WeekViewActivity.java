@@ -24,6 +24,7 @@ import com.example.wis.R;
 import com.example.wis.databinding.FragmentWeekViewBinding;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItemListener {
@@ -33,6 +34,7 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
     Button button_new_event;
     View view;
 
+    private ListView hourListView;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
@@ -49,12 +51,14 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
         CalendarUtils.selectedDate = LocalDate.now();
         eventListView = view.findViewById(R.id.eventListView);
+        hourListView = view.findViewById(R.id.hourListView);
 
         // Initialize the calendar
         super.onCreate(savedInstanceState);
         initWidgets();
         setWeekView();
 
+        // Set up buttons clicks for next and previous week
         button_prev = (Button) view.findViewById(R.id.button_prev);
         button_prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +75,7 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
             }
         });
 
+        // Call create new event activity
         button_new_event = (Button) view.findViewById(R.id.button_new_event);
         button_new_event.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,12 +104,14 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         return view;
     }
 
+    // Set up weekly calendar
     private void initWidgets() {
         calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView);
         monthYearText = view.findViewById(R.id.monthYearTV);
         eventListView = view.findViewById(R.id.eventListView);
     }
 
+    // Get data from array
     private void setWeekView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
@@ -113,7 +120,23 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
-        setEventAdapter();
+        setHourAdapter();
+
+    }
+
+    private ArrayList<HourEvent> hourEventList()
+    {
+        ArrayList<HourEvent> list = new ArrayList<>();
+
+        for(int hour = 0; hour < 24; hour++)
+        {
+            LocalTime time = LocalTime.of(hour, 0);
+            ArrayList<Event> events = Event.eventsForDateAndTime(CalendarUtils.selectedDate, time);
+            HourEvent hourEvent = new HourEvent(time, events);
+            list.add(hourEvent);
+        }
+
+        return list;
     }
 
     public void previousWeekAction(View view) {
@@ -126,16 +149,25 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
         setWeekView();
     }
 
+    // Select one date
     @Override
     public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
         setWeekView();
     }
 
+    // Restart view
     @Override
     public void onResume() {
         super.onResume();
-        setEventAdapter();
+        setHourAdapter();
+    }
+
+
+    private void setHourAdapter ()
+    {
+        HourAdapter hourAdapter = new HourAdapter(getActivity().getApplicationContext(), hourEventList());
+        hourListView.setAdapter(hourAdapter);
     }
 
     private void setEventAdapter() {

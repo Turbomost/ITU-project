@@ -31,7 +31,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (days.size() > 15) //month view
-            layoutParams.height = (int) (parent.getHeight() * 0.14);
+            layoutParams.height = (int) (parent.getHeight() * 0.2);
         else // week view
             layoutParams.height = (int) parent.getHeight();
 
@@ -41,13 +41,23 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         final LocalDate date = days.get(position);
-        if (date == null)
-            holder.dayOfMonth.setText("");
-        else {
-            holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-            if (date.equals(CalendarUtils.selectedDate))
-                holder.parentView.setBackgroundColor(Color.LTGRAY);
-        }
+
+        ArrayList<Event> dailyEvents = Event.eventsForDate(date);
+        holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
+
+        if (date.equals(CalendarUtils.selectedDate))
+            holder.parentView.setBackgroundColor(Color.LTGRAY);
+
+        if (date.getMonth().equals(CalendarUtils.selectedDate.getMonth()))
+            holder.dayOfMonth.setTextColor(Color.BLACK);
+        else
+            holder.dayOfMonth.setTextColor(Color.LTGRAY);
+
+        if (!dailyEvents.isEmpty())
+            holder.dayOfMonth.setTextColor(Color.parseColor("#FF2222"));
+
+        if (!dailyEvents.isEmpty() && !(date.getMonth().equals(CalendarUtils.selectedDate.getMonth())))
+            holder.dayOfMonth.setTextColor(Color.parseColor("#FFBBBB"));
     }
 
     @Override

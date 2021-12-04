@@ -3,11 +3,13 @@ package com.example.wis.ui.calendar;
 import static com.example.wis.ui.calendar.CalendarUtils.daysInMonthArray;
 import static com.example.wis.ui.calendar.CalendarUtils.monthYearFromDate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,11 +34,13 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     View view;
     Button button_prev;
     Button button_next;
+    Button button_new_event;
 
     private com.example.wis.ui.calendar.CalendarViewModel calendarViewModel;
     private FragmentCalendarBinding binding;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
+    private ListView eventListView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,10 +50,12 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarRecyclerView = (RecyclerView) view.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
+        CalendarUtils.selectedDate = LocalDate.now();
+        eventListView = view.findViewById(R.id.eventListView);
 
         // Initialize the calendar
+        super.onCreate(savedInstanceState);
         initWidgets();
-        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
         //Set up buttons clicks
@@ -57,16 +63,24 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         button_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.w("DATE", monthYearFromDate(selectedDate));
                 previousMonthAction(v);
             }
         });
-
         button_next = (Button) view.findViewById(R.id.button_next);
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextMonthAction(v);
+            }
+        });
+
+        // Call create new event activity
+        button_new_event = (Button) view.findViewById(R.id.button_new_event);
+        button_new_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EventEditActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -89,6 +103,14 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         return view;
     }
 
+    // Restart view
+    @Override
+    public void onResume() {
+        super.onResume();
+        setEventAdapter();
+        setMonthView();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -108,6 +130,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+        setEventAdapter();
     }
 
     public void previousMonthAction(View view) {
@@ -126,6 +149,12 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
             CalendarUtils.selectedDate = date;
             setMonthView();
         }
+    }
+
+    private void setEventAdapter() {
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
+        EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
+        eventListView.setAdapter(eventAdapter);
     }
 }
 

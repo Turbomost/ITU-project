@@ -48,7 +48,7 @@ public class EventEditActivity extends AppCompatActivity {
     public void saveEventAction(View view) {
         String eventName = eventNameET.getText().toString();
 
-        //Try catch correct time format
+        // Try catch correct time format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm");
         try {
@@ -61,7 +61,6 @@ public class EventEditActivity extends AppCompatActivity {
                 return;
             }
         }
-
         try {
             time2 = LocalTime.parse(eventTimeTV2.getText(), formatter);
         } catch (Exception a) {
@@ -73,9 +72,15 @@ public class EventEditActivity extends AppCompatActivity {
             }
         }
 
-        // Check time
+        // Check correct time area
         if (time.compareTo(time2) > 0) {
             Toast.makeText(this, "Event is within more than one day", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if name isn't empty
+        if (eventName.equals("")) {
+            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
