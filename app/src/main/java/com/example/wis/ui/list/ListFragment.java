@@ -1,5 +1,6 @@
 package com.example.wis.ui.list;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class ListFragment extends Fragment {
     //ArrayList<String> time,name,subject;
     List<DeadlineViewModel> deadlinelist = new ArrayList<DeadlineViewModel>();
     DeadlinesAdapter deadlinesAdapter;
+    DeadlineViewModel deadline = new DeadlineViewModel();
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,7 +63,7 @@ public class ListFragment extends Fragment {
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
         databaseHelper = new DataBaseHelper(getContext());
 
-        displayData();
+        deadlinelist = deadline.displayData(getContext());
         deadlinesAdapter = new DeadlinesAdapter(getContext(), deadlinelist);
         RecyclerView.setAdapter(deadlinesAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,28 +93,6 @@ public class ListFragment extends Fragment {
         binding = null;
     }
 
-    void displayData(){
-        Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
-        Cursor cursor = databaseHelper.getUserDeadlines(user_ID);
-
-        while (cursor.moveToNext()){
-            DeadlineViewModel newdeadline = new DeadlineViewModel(cursor.getString(0),cursor.getString(1), databaseHelper.getSubjectName(cursor.getInt(2)));
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-            try {
-                Date date = format.parse(newdeadline.getDeadline_time());
-                String str_current_date = format.format(new Date());
-                Date current_date = format.parse(str_current_date);
-                if (!(current_date.after(date))){
-                    deadlinelist.add(newdeadline);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
 
 
