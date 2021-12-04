@@ -3,32 +3,35 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/excercise_list.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.20729166666666668" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_calendar_black.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.2703125" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_list_black.xml" value="0.2703125" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_logout_black.xml" value="0.1171875" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_week_black.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/whatever.xml" value="0.20729166666666668" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_bottom.xml" value="0.4" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_event_edit.xml" value="0.264" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_login.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_main.xml" value="0.16134913400182316" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_week_view.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/calendar_cell.xml" value="0.20425724637681159" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/event_cell.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/excercise_list.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/exercises_activity.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_calendar.xml" value="0.2" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_list.xml" value="0.171875" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_notifications.xml" value="0.1956521739130435" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_week_view.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_week_view.xml" value="0.19821092278719396" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/hour_cell.xml" value="0.536" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/list_single_item.xml" value="0.15625" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/myrow.xml" value="0.15625" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.72" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/menu/top_bar.xml" value="0.176" />
       </map>
     </option>
   </component>
