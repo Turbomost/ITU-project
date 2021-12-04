@@ -40,11 +40,11 @@ public class Event {
     {
         ArrayList<Event> events = new ArrayList<>();
 
-        for(Event event : eventsList)
-        {
+        for(Event event : eventsList) {
             int eventHour = event.time.getHour();
+            int eventHour2 = event.time2.getHour();
             int cellHour = time.getHour();
-            if(event.getDate().equals(date) && eventHour == cellHour)
+            if (event.getDate().equals(date) && eventHour == cellHour)
                 events.add(event);
         }
 

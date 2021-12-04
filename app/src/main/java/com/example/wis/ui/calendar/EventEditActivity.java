@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wis.R;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -87,6 +88,8 @@ public class EventEditActivity extends AppCompatActivity {
         // Store data into list
         Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, time2);
         Event.eventsList.add(newEvent);
+
+        //TODO add to database
 
         // Sort data
         Collections.sort(Event.eventsList, new Comparator<Event>() {
