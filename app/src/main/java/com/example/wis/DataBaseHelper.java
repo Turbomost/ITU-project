@@ -43,6 +43,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USER_DEADLINE_ID = "USER_DEADLINE_ID";
     public static final String COLUMN_USER_DEADLINE_STATUS = "USER_DEADLINE_STATUS";
 
+    public static final String USER_LECTURE_TABLE = "USER_LECTURE_TABLE";
+    public static final String COLUMN_USER_LECTURE_ID = "USER_LECTURE_ID";
+    public static final String COLUMN_USER_LECTURE_STATUS = "USER_LECTURE_STATUS";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "tables.db", null, 1);
@@ -62,6 +65,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         createTableStatement = "CREATE TABLE " + USER_SUBJECT_TABLE + " (" + COLUMN_USER_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + USER_DEADLINE_TABLE + " (" + COLUMN_USER_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER,"+ COLUMN_DEADLINE_ID + " INTEGER," + COLUMN_USER_DEADLINE_STATUS + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_DEADLINE_ID + ") REFERENCES " + DEADLINE_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        sqLiteDatabase.execSQL(createTableStatement);
+        createTableStatement = "CREATE TABLE " + USER_LECTURE_TABLE + " (" + COLUMN_USER_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER,"+ COLUMN_LECTURE_ID + " INTEGER," + COLUMN_USER_LECTURE_STATUS + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_DEADLINE_ID + ") REFERENCES " + DEADLINE_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
 
         sqLiteDatabase.execSQL("INSERT INTO " + SUBJECT_TABLE +" VALUES (1, \"Signály a systémy\", \"ISS\", \"2BIT\")");
@@ -207,6 +212,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public boolean insertUserLecture(UserLectureModel userlecture) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_LECTURE_ID, userlecture.getUser_lecture_id());
+        values.put(COLUMN_USER_ID, userlecture.getUser_id());
+        values.put(COLUMN_DEADLINE_ID, userlecture.getLecture_id());
+        values.put(COLUMN_USER_LECTURE_STATUS, userlecture.getUser_lecture_status());
+
+        long insert = db.insert(USER_LECTURE_TABLE, null, values);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void updateUserDeadlineStatus(int user_id, int deadline_id, int status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -226,6 +248,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public void updateUserLectureStatus(int user_id, int lecture_id, int status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String queryString = "SELECT * FROM " + USER_LECTURE_TABLE + " WHERE (" + COLUMN_USER_ID + " = \"" + user_id + "\") AND (" + COLUMN_LECTURE_ID + " = \"" + lecture_id + "\")";
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()) {
+            values.put(COLUMN_USER_LECTURE_STATUS, status);
+            db.update(USER_LECTURE_TABLE, values,
+                    COLUMN_USER_ID + " = ? AND " + COLUMN_LECTURE_ID + " = ?",
+                    new String[]{String.valueOf(user_id),String.valueOf(lecture_id)});
+        }
+        else{
+            values.put(COLUMN_USER_ID, user_id);
+            values.put(COLUMN_LECTURE_ID, lecture_id);
+            values.put(COLUMN_USER_LECTURE_STATUS, status);
+            db.insert(USER_LECTURE_TABLE, null, values);
+        }
+
+    }
+
+    public boolean UserLectureStatusCheck(int subject_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String queryString = "SELECT * FROM " + USER_LECTURE_TABLE + " INNER JOIN " + LECTURE_TABLE + " ON " + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " = " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " WHERE (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + subject_id + ") AND (" + USER_LECTURE_TABLE + "." + COLUMN_USER_LECTURE_STATUS + " = 1) " ;
+        Cursor cursor = db.rawQuery(queryString, null);
+        int count = cursor.getCount();
+
+        cursor.close();
+        close();
+
+        if(count > 0){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
