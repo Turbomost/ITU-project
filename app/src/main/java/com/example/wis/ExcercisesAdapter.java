@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
 
     Context context;
     List<ExcerciseViewModel> excerciselist;
+    private int selectedPosition = -1;
 
 
     public ExcercisesAdapter(Context context, List<ExcerciseViewModel> excerciselist){
@@ -37,23 +39,45 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DataBaseHelper db = new DataBaseHelper(context.getApplicationContext());
         Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
+        Integer subject_ID= Integer.valueOf((SharedPref.readSharedSetting(context, "SubjectID", "-1")));
+        int pos = position;
         ExcerciseViewModel item = excerciselist.get(position);
         holder.colStart.setText(String.valueOf(item.getExcercise_start()));
         holder.colEnd.setText(String.valueOf(item.getExcercise_end()));
-        holder.colName.setText(String.valueOf(item.getExcercise_name()));
-        holder.cbDone.setChecked(toBoolean(item.getExcercise_status()));
+        holder.colName.setText("cvičení");
+        if(selectedPosition == -1){
+            holder.cbDone.setChecked(toBoolean(item.getExcercise_status()));
+        }
+        else{
+        if(selectedPosition == pos){
+            holder.cbDone.setChecked(true);
+
+        }
+        else{
+            holder.cbDone.setChecked(false);
+
+        }}
+
         holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //if (!(db.UserLectureStatusCheck(subject_ID))){
                 if (isChecked) {
+                    selectedPosition = holder.getAdapterPosition();
                     db.updateUserLectureStatus( user_ID, item.getExcercise_id(), 1);
-
-                } else {
-                    db.updateUserLectureStatus(user_ID ,item.getExcercise_id(),0);
+                    notifyDataSetChanged();
                 }
-
+                else{
+                    db.updateUserLectureStatus( user_ID, item.getExcercise_id(), 0);
+                }
             }
         });
+
+
+
+
+
+
     }
 
     private boolean toBoolean(int n){
@@ -75,7 +99,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
             super(itemView);
             colStart = itemView.findViewById(R.id.starttxt);
             colEnd = itemView.findViewById(R.id.endtxt);
-            colName = itemView.findViewById(R.id.nametxt);
+            colName = itemView.findViewById(R.id.lecturetxt);
             cbDone = itemView.findViewById(R.id.cb_done);
         }
     }

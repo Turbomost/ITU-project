@@ -68,23 +68,42 @@ public class ExcerciseViewModel {
         this.excercise_status = excercise_status;
     }
 
-    public List<ExcerciseViewModel> displayData(Context context) {
+    public List<ExcerciseViewModel> displayData(Context context, int subject_id) {
         Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
         DataBaseHelper databaseHelper = new DataBaseHelper(context);
         List<ExcerciseViewModel> excerciseList = new ArrayList<ExcerciseViewModel>();
-        Cursor cursor = databaseHelper.getAllUserLectures(user_ID);
+        String exercise_meno = "cvičení";
+        Cursor cursor = databaseHelper.getAllUserLectures(user_ID, subject_id);
 
         while (cursor.moveToNext()) {
-            ExcerciseViewModel newExcercise = new ExcerciseViewModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), "cvičení", databaseHelper.getUserExcerciseStatus(user_ID, cursor.getInt(0)));
-
-
-
-
-            excerciseList.add(newExcercise);
-
-
-
+            if(cursor.getString(3).equals("c")){
+                ExcerciseViewModel newExcercise = new ExcerciseViewModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2),exercise_meno, databaseHelper.getUserExcerciseStatus(user_ID, cursor.getInt(0)));
+                excerciseList.add(newExcercise);
+            }
         }
         return excerciseList;
     }
+
+    public static Comparator<ExcerciseViewModel> ExcerciseTimeComparator = new Comparator<ExcerciseViewModel>() {
+        @Override
+        public int compare(ExcerciseViewModel o1, ExcerciseViewModel o2) {
+            String time1 = o1.getExcercise_start();
+            String time2 = o2.getExcercise_start();
+            SimpleDateFormat format = new SimpleDateFormat("EEE HH:mm ");
+            try {
+                Date final_time1 = format.parse(time1);
+                Date final_time2 = format.parse(time2);
+                if(final_time1.after(final_time2)){
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return 1;
+        }
+    };
 }
