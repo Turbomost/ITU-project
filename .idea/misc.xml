@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Maggie/Documents/GitHub/ITU_WIS/app/src/main/res/layout/excercise_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_calendar_black.xml" value="0.11458333333333333" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.14635416666666667" />
@@ -23,11 +24,10 @@
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_list.xml" value="0.171875" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_notifications.xml" value="0.1956521739130435" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_week_view.xml" value="0.19821092278719396" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/hour_cell.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/fragment_week_view.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/list_single_item.xml" value="0.15625" />
         <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/layout/myrow.xml" value="0.15625" />
-        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.72" />
+        <entry key="..\:/Users/xvalen29/Documents/GitHub/ITU_WIS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
       </map>
     </option>
   </component>

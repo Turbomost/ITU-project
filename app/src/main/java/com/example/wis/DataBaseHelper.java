@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+//Data management
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "USER_TABLE";
     public static final String COLUMN_USER_ID = "USER_ID";
@@ -51,7 +52,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super(context, "tables.db", null, 1);
     }
 
-
+// creating tables in database and filling with data
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement = "CREATE TABLE " + USER_TABLE + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_LOGIN + " TEXT, " + COLUMN_USER_PASSWORD + " TEXT, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_USER_CLASS + " TEXT)";
@@ -119,6 +120,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
 
     }
+
+    //Inserting item to table
 
     public boolean insertUser(UserModel user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -234,6 +237,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // updating
     public void updateUserDeadlineStatus(int user_id, int deadline_id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
