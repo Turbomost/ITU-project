@@ -1,6 +1,8 @@
-/*
+/* DeadlinesAdapter.java
  * Author     : xbella01
+ * Adapter for recyclerView in ListFragment
  */
+
 package com.example.wis.ui.list;
 
 import android.content.Context;

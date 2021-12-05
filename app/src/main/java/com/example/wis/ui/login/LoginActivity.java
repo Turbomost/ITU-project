@@ -1,8 +1,8 @@
-/*
- * LoginActivity.java
+/* LoginActivity.java
  * Author     : xbella01
- *
+ * Activity for handling log in
  */
+
 package com.example.wis.ui.login;
 
 
@@ -26,6 +26,12 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
     DataBaseHelper databaseHelper;
 
+    /**
+     * Method onCreate chceks if user is already loged in if yes skips to main activity if not waits for log in.
+     * When are edit text view filled correctly and user clicks on button application goes to main activity.
+     * Otherwise, writes on the screen, that log in failed.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     edtPassword.setText(null);
-                    Toast.makeText(LoginActivity.this, "Login failed. Invalid username or password.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Přihlášení neúspěšné. Špatný login nebo heslo.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

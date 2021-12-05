@@ -1,5 +1,6 @@
-/*
+/* DeadlineModel.java
  * Author     : xbella01
+ * Model for handling data for deadlines
  */
 
 package com.example.wis.Models;

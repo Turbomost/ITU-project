@@ -1,6 +1,8 @@
-/*
+/* ExcerciseViewModel.java
  * Author     : xbella01
+ * Model for handling data for excercises display in home at ExcerciseActivity
  */
+
 
 package com.example.wis.Models;
 
@@ -83,6 +85,12 @@ public class ExcerciseViewModel {
         this.excercise_status = excercise_status;
     }
 
+    /**
+     * Fills list for displaying data
+     * @param context
+     * @param subject_id
+     * @return list of ExcerciseViewModel
+     */
     public List<ExcerciseViewModel> displayData(Context context, int subject_id) {
         Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
         DataBaseHelper databaseHelper = new DataBaseHelper(context);

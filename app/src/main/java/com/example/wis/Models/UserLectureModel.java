@@ -1,6 +1,8 @@
-/*
+/* UserLectureModel.java
  * Author     : xbella01
+ * Model for handling data for user lecture connections
  */
+
 package com.example.wis.Models;
 
 public class UserLectureModel {

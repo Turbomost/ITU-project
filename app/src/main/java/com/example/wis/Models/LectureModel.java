@@ -1,6 +1,8 @@
-/*
+/* LectureModel.java
  * Author     : xbella01
+ * Model for handling data for lectures/excercises
  */
+
 package com.example.wis.Models;
 
 public class LectureModel {

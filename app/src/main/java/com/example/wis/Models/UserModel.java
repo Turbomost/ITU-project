@@ -1,7 +1,10 @@
-package com.example.wis.Models;
-/*
+/* UserModel.java
  * Author     : xbella01
+ * Model for handling data for users
  */
+
+package com.example.wis.Models;
+
 public class UserModel {
     private int user_id;
     private String user_login;

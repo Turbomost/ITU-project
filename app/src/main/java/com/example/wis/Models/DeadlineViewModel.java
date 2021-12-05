@@ -1,6 +1,9 @@
-/*
+/* DeadlineViewModel.java
  * Author     : xbella01
+ * Model for handling data for deadlines displayed in list
  */
+
+
 package com.example.wis.Models;
 
 import android.content.Context;
@@ -35,6 +38,9 @@ public class DeadlineViewModel {
     public DeadlineViewModel() {
     }
 
+    /**
+     * Time Comparator of deadlines
+     */
     public static Comparator<DeadlineViewModel> DeadlineDateComparator = new Comparator<DeadlineViewModel>() {
         @Override
         public int compare(DeadlineViewModel o1, DeadlineViewModel o2) {
@@ -53,6 +59,11 @@ public class DeadlineViewModel {
         }
     };
 
+    /**
+     * Filling list for display
+     * @param context
+     * @return list of DeadlineViewModel
+     */
     public List<DeadlineViewModel> displayData(Context context){
         Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
         DataBaseHelper databaseHelper = new DataBaseHelper(context);

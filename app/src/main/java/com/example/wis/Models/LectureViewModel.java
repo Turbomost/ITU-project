@@ -1,6 +1,8 @@
-/*
+/* LectureViewModel.java
  * Author     : xbella01
+ * Model for handling data for lectures display in schedule - WeekViewAktivity
  */
+
 package com.example.wis.Models;
 
 public class LectureViewModel {

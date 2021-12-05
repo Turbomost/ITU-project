@@ -31,6 +31,9 @@ import java.util.List;
 ---------------CREATING AND FILLING DATABASE----------------
  */
 
+/**
+ * public class for work with database
+ */
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "USER_TABLE";
     public static final String COLUMN_USER_ID = "USER_ID";
@@ -73,7 +76,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super(context, "tables.db", null, 1);
     }
 
-// creating tables in database and filling with data
+    /**
+     * On create database crates tables and fills them with data
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement = "CREATE TABLE " + USER_TABLE + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_LOGIN + " TEXT, " + COLUMN_USER_PASSWORD + " TEXT, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_USER_CLASS + " TEXT)";
@@ -138,6 +144,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (8,2,8)");
     }
 
+    /**
+     * OnUpgrade database deletes tables and runs again method onCreate
+     * @param sqLiteDatabase
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
@@ -157,10 +169,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //Inserting item to table
 
+    /**
+     * Inserting User
+     * @param user
+     * @return boolean if it wad successful
+     */
     public boolean insertUser(UserModel user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_ID, user.getUser_id());
+        //values.put(COLUMN_USER_ID, user.getUser_id());
         values.put(COLUMN_USER_LOGIN, user.getUser_login());
         values.put(COLUMN_USER_PASSWORD, user.getUser_password());
         values.put(COLUMN_USER_NAME, user.getUser_name());
@@ -174,10 +191,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserting Subject
+     * @param subject
+     * @return boolean if it wad successful
+     */
     public boolean insertSubject(SubjectModel subject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SUBJECT_ID, subject.getSubject_id());
+        //values.put(COLUMN_SUBJECT_ID, subject.getSubject_id());
         values.put(COLUMN_SUBJECT_NAME, subject.getSubject_name());
         values.put(COLUMN_SUBJECT_SHORTCUT, subject.getSubject_shortcut());
         values.put(COLUMN_SUBJECT_CLASS, subject.getSubject_class());
@@ -190,6 +212,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Insering Deadline
+     * @param deadline
+     * @return boolean if it wad successful
+     */
     public boolean insertDeadline(DeadlineModel deadline) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -206,10 +233,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserting Lecture
+     * @param lecture
+     * @return boolean if it wad successful
+     */
     public boolean insertLecture(LectureModel lecture) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_LECTURE_ID, lecture.getLecture_id());
+        //values.put(COLUMN_LECTURE_ID, lecture.getLecture_id());
         values.put(COLUMN_LECTURE_DAY, lecture.getLecture_day());
         values.put(COLUMN_LECTURE_START, lecture.getLecture_start());
         values.put(COLUMN_LECTURE_END, lecture.getLecture_end());
@@ -225,6 +257,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserting UserSubject
+     * @param usersubject
+     * @return boolean if it wad successful
+     */
     public boolean insertUserSubject(UserSubjectModel usersubject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -240,7 +277,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
+    /**
+     * Inserting UserDeadline
+     * @param userdeadline
+     * @return boolean if it wad successful
+     */
     public boolean insertUserDeadline(UserDeadlineModel userdeadline) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -257,6 +298,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserting UserLecture
+     * @param userlecture
+     * @return boolean if it wad successful
+     */
     public boolean insertUserLecture(UserLectureModel userlecture) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -274,6 +320,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     // updating
+
+    /**
+     * Updates status of specific deadline of specific user to status
+     * @param user_id
+     * @param deadline_id
+     * @param status
+     */
     public void updateUserDeadlineStatus(int user_id, int deadline_id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -293,6 +346,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Updates satus of specific lecture of specific user to status
+     * @param user_id
+     * @param lecture_id
+     * @param status
+     */
     public void updateUserLectureStatus(int user_id, int lecture_id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -312,79 +371,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-
     //deleting
+
+    /**
+     * Deleting all Users
+     */
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(USER_TABLE, null, null);
         db.close();
     }
 
+    /**
+     * Deleting all Subjects
+     */
     public void deleteAllSubjects() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(SUBJECT_TABLE, null, null);
         db.close();
     }
 
+    /**
+     * Deleting all Deadlines
+     */
     public void deleteAllDeadlines() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DEADLINE_TABLE, null, null);
         db.close();
     }
 
+    /**
+     * Deleting all Luctures
+     */
     public void deleteAllLectures() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(LECTURE_TABLE, null, null);
         db.close();
     }
 
+    /**
+     * Deleting all user subjects connections
+     */
     public void deleteAllUserSubjects() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(USER_SUBJECT_TABLE, null, null);
         db.close();
     }
 
-    public void deleteAllUserDeadlines() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(USER_DEADLINE_TABLE, null, null);
-        db.close();
-    }
-
-
     //List Creating
-    public List<UserModel> getAllUsers() {
 
-        List<UserModel> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + USER_TABLE;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int user_id = cursor.getInt(0);
-                String user_login = cursor.getString(1);
-                String user_password = cursor.getString(2);
-                String user_name = cursor.getString(3);
-                String user_class = cursor.getString(4);
-
-                UserModel newmodel = new UserModel(user_id, user_login, user_password, user_name, user_class);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }
-
+    /**
+     * Get all subjects
+     * @return list of SubjectModel
+     */
     public List<SubjectModel> getAllSubjects() {
 
         List<SubjectModel> returnList = new ArrayList<>();
@@ -417,101 +457,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<DeadlineModel> getAllDeadlines() {
-
-        List<DeadlineModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + DEADLINE_TABLE;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int deadline_id = cursor.getInt(0);
-                String deadline_name = cursor.getString(1);
-                String deadline_time = cursor.getString(2);
-                int subject_id = cursor.getInt(3);
-
-                DeadlineModel newmodel = new DeadlineModel(deadline_id, deadline_name, deadline_time, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }
-    public List<LectureModel> getAllLectures() {
-
-        List<LectureModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + LECTURE_TABLE;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int lecture_id = cursor.getInt(0);
-                String lecture_day = cursor.getString(1);
-                String lecture_start = cursor.getString(2);
-                String lecture_end = cursor.getString(3);
-                String lecture_name = cursor.getString(4);
-                String lecture_type = cursor.getString(5);
-                int subject_id = cursor.getInt(6);
-
-                LectureModel newmodel = new LectureModel(lecture_id, lecture_day, lecture_start, lecture_end, lecture_name, lecture_type, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }
-
-    //Deadlines for one subject
-    public List<DeadlineModel> getSubjectDeadlines(int sub_id) {
-        List<DeadlineModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + DEADLINE_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + sub_id + ")";
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int deadline_id = cursor.getInt(0);
-                String deadline_name = cursor.getString(1);
-                String deadline_time = cursor.getString(2);
-                int subject_id = cursor.getInt(3);
-
-                DeadlineModel newmodel = new DeadlineModel(deadline_id, deadline_name, deadline_time, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-        cursor.close();
-        db.close();
-        return returnList;
-    }
+    /**
+     * Get deadlines of specific users at specific time
+     * @param user_id
+     * @param time
+     * @return list of DeadlineModel
+     */
     public List<DeadlineModel> getUserDeadlinesList(int user_id, String time) {
         List<DeadlineModel> returnList = new ArrayList<>();
 
@@ -533,82 +484,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
 
-        } else {
-
-            //
         }
         cursor.close();
         db.close();
         return returnList;
     }
 
-    //all lectures of one subject
-    public List<LectureModel> getSubjectLectures(int sub_id) {
-        List<LectureModel> returnList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + LECTURE_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + sub_id + ")";
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int lecture_id = cursor.getInt(0);
-                String lecture_day = cursor.getString(1);
-                String lecture_start = cursor.getString(2);
-                String lecture_end = cursor.getString(3);
-                String lecture_name = cursor.getString(4);
-                String lecture_type = cursor.getString(5);
-                int subject_id = cursor.getInt(6);
-
-                LectureModel newmodel = new LectureModel(lecture_id, lecture_day, lecture_start, lecture_end, lecture_name, lecture_type, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-    }
-    //subjects of one class
-    public List<SubjectModel> getClassSubjects(String sub_class) {
-
-        List<SubjectModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT * FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = \"" + sub_class + "\")";
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int subject_id = cursor.getInt(0);
-                String subject_name = cursor.getString(1);
-                String subject_shortcut = cursor.getString(2);
-                String subject_class = cursor.getString(3);
-
-                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }
-
-    //all lectures of user
+    /**
+     * Get all lectures of specific user of type p
+     * @param user_id
+     * @return list of LectureViewModel
+     */
     public List<LectureViewModel> getAllUserLecturesP(int user_id){
 
         List<LectureViewModel> returnList = new ArrayList<>();
@@ -642,7 +529,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //all exercises of user
+    /**
+     * Get all lectures of specific user of type c
+     * @param user_id
+     * @return  list of LectureViewModel
+     */
     public List<LectureViewModel> getAllUserLecturesC(int user_id) {
 
         List<LectureViewModel> returnList = new ArrayList<>();
@@ -678,6 +569,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //getters
+
+    /**
+     * Get status of specific deadline of specific user
+     * @param user_id
+     * @param deadline_id
+     * @return int status
+     */
     public int getUserDeadlineStatus(int user_id, int deadline_id) {
         List<LectureModel> returnList = new ArrayList<>();
 
@@ -695,6 +593,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    /**
+     * Get status of specific excercise of specific user
+     * @param user_id
+     * @param excercise_id
+     * @return int status
+     */
     public int getUserExcerciseStatus(int user_id, int excercise_id) {
         String queryString = "SELECT " + COLUMN_USER_LECTURE_STATUS + " FROM " + USER_LECTURE_TABLE + " WHERE (" + COLUMN_USER_ID + " = \"" + user_id + "\") AND (" + COLUMN_LECTURE_ID + " = \"" + excercise_id + "\")";
 
@@ -710,6 +614,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    /**
+     * Get subject name from subject id
+     * @param subject_id
+     * @return String subject name
+     */
     public String getSubjectName(int subject_id) {
         String queryString = "SELECT " + COLUMN_SUBJECT_SHORTCUT + " FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_ID + " = " + subject_id + ")";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -724,6 +633,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    /**
+     * Get subject id from subject name
+     * @param subject_name
+     * @return int subject id
+     */
     public int getSubjectId(String subject_name) {
         String queryString = "SELECT " + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " WHERE (" + COLUMN_SUBJECT_NAME + " = \"" + subject_name + "\")";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -740,6 +654,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //checking
 
+    /**
+     * Login varification. Checks if user with given login and password exists
+     * @param context
+     * @param username
+     * @param password
+     * @return boolean, true if exist, false if doesnt
+     */
     public boolean checkUserExist(Context context, String username, String password) {
 
         String queryString = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + username + "\") AND (" + COLUMN_USER_PASSWORD + " = \"" + password + "\")";
@@ -761,24 +682,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean UserLectureStatusCheck(int subject_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        String queryString = "SELECT * FROM " + USER_LECTURE_TABLE + " INNER JOIN " + LECTURE_TABLE + " ON " + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " = " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " WHERE (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + subject_id + ") AND (" + USER_LECTURE_TABLE + "." + COLUMN_USER_LECTURE_STATUS + " = 1) ";
-        Cursor cursor = db.rawQuery(queryString, null);
-        int count = cursor.getCount();
-
-        cursor.close();
-        close();
-
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
+    /**
+     * Checks if subject with subject shortcut exists
+     * @param shortcut
+     * @param user_id
+     * @return int, if exist return subject id, if doesnt return -1
+     */
     public int CheckSubjectShortcut(String shortcut, int user_id){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + "= \"" +shortcut+ "\") AND (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") ";
@@ -793,9 +702,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         } else {
             return -1;
         }
-return -1;
+        return -1;
     }
 
+    /**
+     * Checks deadline status
+     * @param deadline_id
+     * @return boolean, if checked as completed return false, if still active return true
+     */
     public boolean CheckDeadlineActivity(int deadline_id){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "SELECT " + COLUMN_USER_DEADLINE_STATUS + " FROM " + USER_DEADLINE_TABLE + " WHERE (" + COLUMN_DEADLINE_ID + "= " + deadline_id +")" ;
@@ -811,79 +725,12 @@ return -1;
         return true;
     }
 
-    //cursor creating
-
-    public Cursor getUserDeadlines(int user_id) {
-        List<DeadlineModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        return cursor;
-    }
-
-    public Cursor geActiveUserDeadlines(int user_id) {
-        List<DeadlineModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        return cursor;
-    }
-
-    public Cursor readAllData() {
-        String query = "SELECT * FROM " + SUBJECT_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null) {
-            cursor = db.rawQuery(query, null);
-
-        }
-        return cursor;
-    }
-
-    public Cursor getUsername(Integer user_ID) {
-        String query = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + user_ID + "\")";
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null) {
-            cursor = db.rawQuery(query, null);
-
-        }
-        return cursor;
-    }
-
-    public Cursor getAllUserSubjects(int user_id) {
-
-        List<SubjectModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-        return cursor;
-    }
-
-
-    public Cursor getAllUserLectures(int user_id, int subject_id) {
-
-        List<LectureModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_NAME + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + "=" + subject_id +") ";
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        return cursor;
-
-    }
-
+    /**
+     * Checks if there are any lectures in specific subject of specific usr
+     * @param user_id
+     * @param subject_id
+     * @return boolean, if exists at least on return true, if doesnet false
+     */
     public boolean getAllUserLecturesCount(int user_id, int subject_id) {
 
         List<LectureModel> returnList = new ArrayList<>();
@@ -904,5 +751,60 @@ return -1;
         }
 
     }
+
+    //cursor creating
+
+    /**
+     * Get all deadlines of specific user
+     * @param user_id
+     * @return Cursor
+     */
+    public Cursor getUserDeadlines(int user_id) {
+        List<DeadlineModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        return cursor;
+    }
+
+    /**
+     * Get all subjects of specific user
+     * @param user_id
+     * @return Cursor
+     */
+    public Cursor getAllUserSubjects(int user_id) {
+
+        List<SubjectModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        return cursor;
+    }
+
+    /**
+     * Get all lectures of specific subject of specific user
+     * @param user_id
+     * @param subject_id
+     * @return
+     */
+    public Cursor getAllUserLectures(int user_id, int subject_id) {
+
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_NAME + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + "=" + subject_id +") ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        return cursor;
+
+    }
+
+
 
 }

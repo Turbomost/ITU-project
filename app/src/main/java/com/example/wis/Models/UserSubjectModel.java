@@ -1,5 +1,6 @@
-/*
+/* UserSubjectModel.java
  * Author     : xbella01
+ * Model for handling data for user subject connections
  */
 package com.example.wis.Models;
 

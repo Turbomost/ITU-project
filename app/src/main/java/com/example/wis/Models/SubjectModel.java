@@ -1,6 +1,8 @@
-/*
+/* SubjectModel.java
  * Author     : xbella01
+ * Model for handling data for subjects
  */
+
 package com.example.wis.Models;
 
 import java.text.SimpleDateFormat;

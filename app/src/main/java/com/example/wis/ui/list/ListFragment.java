@@ -1,6 +1,8 @@
-/*
+/* ListFragment.java
  * Author     : xbella01
+ * Fragment of main activity that displays deadlines in recyclerView
  */
+
 package com.example.wis.ui.list;
 
 import android.os.Bundle;

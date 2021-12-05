@@ -1,6 +1,8 @@
-/*
+/* UserDeadlineModel.java
  * Author     : xbella01
+ * Model for handling data for user deadline connections
  */
+
 package com.example.wis.Models;
 
 public class UserDeadlineModel {
