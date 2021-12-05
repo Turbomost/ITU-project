@@ -511,7 +511,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+    public List<DeadlineModel> getUserDeadlinesList(int user_id, String time) {
+        List<DeadlineModel> returnList = new ArrayList<>();
 
+        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND ("+  DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + " = \"" + time + "\")";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                int deadline_id = cursor.getInt(0);
+                String deadline_name = cursor.getString(1);
+                String deadline_time = cursor.getString(2);
+                int subject_id = cursor.getInt(3);
+
+                DeadlineModel newmodel = new DeadlineModel(deadline_id, deadline_name, deadline_time, subject_id);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+        cursor.close();
+        db.close();
+        return returnList;
+    }
 
     //all lectures of one subject
     public List<LectureModel> getSubjectLectures(int sub_id) {
@@ -752,7 +780,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public int CheckSubjectShortcut(String shortcut, int user_id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + "ON" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + "WHERE (" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + "= \"" +shortcut+ "\") AND (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") ";
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + "= \"" +shortcut+ "\") AND (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") ";
         Cursor cursor = db.rawQuery(queryString, null);
         int count = cursor.getCount();
         if (count > 0) {
@@ -761,6 +789,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return -1;
         }
 
+    }
+
+    public boolean CheckDeadlineActivity(int deadline_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "SELECT " + COLUMN_USER_DEADLINE_STATUS + " FROM " + USER_DEADLINE_TABLE + " WHERE (" + COLUMN_DEADLINE_ID + "= " + deadline_id +")" ;
+        Cursor cursor = db.rawQuery(queryString, null);
+        int count = cursor.getCount();
+        if(count>0){
+            if(cursor.moveToFirst()){
+                if (cursor.getInt(0)==1){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     //cursor creating
