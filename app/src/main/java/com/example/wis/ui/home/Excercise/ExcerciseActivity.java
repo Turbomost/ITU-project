@@ -1,3 +1,8 @@
+/*
+ * ExcerciseActivity.java
+ * Author     : xzimme03
+ * Activity which is opened after clicking on a subject icon
+ */
 package com.example.wis.ui.home.Excercise;
 
 import android.content.Intent;
@@ -35,16 +40,18 @@ public class ExcerciseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exercises_activity);
         String subject_name = getIncomingIntent();
+        // Getting excercise information based on the subject name
         int subject_id = databaseHelper.getSubjectId(subject_name);
         RecyclerView = (androidx.recyclerview.widget.RecyclerView) findViewById(R.id.recyclerView);
         databaseHelper = new DataBaseHelper(this);
         SharedPref.saveSharedSetting(this, "SubjectID", Integer.toString(subject_id));
+        // Displaying data
         excerciseList = excercise.displayData(this, subject_id);
         excerciseAdapter = new ExcercisesAdapter(this, excerciseList);
         RecyclerView.setAdapter(excerciseAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        //logout
         ImageButton btn_logout = (ImageButton) findViewById(R.id.imageButton2);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +62,7 @@ public class ExcerciseActivity extends AppCompatActivity {
             }
         });
     }
-
+    // Collecting subject name which was sent in Custom Adapter
     private String getIncomingIntent() {
         String subject_name = getIntent().getStringExtra("subject_name");
         //Toast.makeText(this, subject_name, Toast.LENGTH_SHORT).show();

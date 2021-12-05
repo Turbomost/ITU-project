@@ -1,3 +1,8 @@
+/*
+ * HomeFragment.java
+ * Author     : xzimme03
+ * Fragment view for home page
+ */
 package com.example.wis.ui.home;
 
 import android.database.Cursor;
@@ -26,10 +31,8 @@ public class HomeFragment extends Fragment{
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     View ww;
-    Integer currentUserID;
     DataBaseHelper DB;
-    String username = null;
-    ArrayList<String> login, compare;
+    ArrayList<String> subject;
     CustomAdapter customAdapter;
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
@@ -41,17 +44,17 @@ public class HomeFragment extends Fragment{
         ww = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView = (RecyclerView) ww.findViewById(R.id.recyclerView);
         DB = new DataBaseHelper(getContext());
-        login = new ArrayList<>();
+        subject = new ArrayList<>();
 
         displayData();
-        customAdapter = new CustomAdapter(getContext(),login,RecyclerView);
+        customAdapter = new CustomAdapter(getContext(),subject,RecyclerView);
         RecyclerView.setAdapter(customAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+
 
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -67,14 +70,14 @@ public class HomeFragment extends Fragment{
         super.onDestroyView();
         binding = null;
     }
-
+    // Function to get data from database
     void displayData(){
         Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
         Cursor cursor = DB.getAllUserSubjects(user_ID);
 
             while (cursor.moveToNext()){
 
-                login.add(cursor.getString(1));
+                subject.add(cursor.getString(1));
 
             }
 

@@ -1,3 +1,8 @@
+/*
+ * ExcercisesAdapter.java
+ * Author     : xzimme03
+ * Adapter for Recycle view
+ */
 package com.example.wis.ui.home.Excercise;
 
 import android.content.Context;
@@ -49,6 +54,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
         holder.colStart.setText(String.valueOf(item.getExcercise_start())+"-");
         holder.colEnd.setText(String.valueOf(item.getExcercise_end()));
         holder.colName.setText(String.valueOf(item.getExcercise_name()));
+        //checking in the excercise
         if (selectedPosition == -1) {
             holder.cbDone.setChecked(toBoolean(item.getExcercise_status()));
         } else {
@@ -59,7 +65,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
                 holder.cbDone.setChecked(false);
 
             }
-        }
+        } // updating database based on check
         holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -84,7 +90,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
     public int getItemCount() {
         return excerciselist.size();
     }
-
+    // Class for storing data
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView colDay;
         TextView colStart;

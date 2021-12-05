@@ -1,3 +1,8 @@
+/*
+ * HowmeViewModel.java
+ * Author     : xzimme03
+ * View model for home fragment
+ */
 package com.example.wis.ui.home;
 
 import androidx.lifecycle.LiveData;

@@ -1,3 +1,8 @@
+/*
+ * CustomAdapter.java
+ * Author     : xzimme03
+ * Adapter for Recycle view
+ */
 package com.example.wis.ui.home;
 import android.content.Context;
 import android.content.Intent;
@@ -21,23 +26,23 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList login;
+    private ArrayList subject;
     RecyclerView recyclerView;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView logintxt;
+        TextView subjecttxt;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
            // item = (LinearLayout)itemView.findViewById(R.id.home_item_id);
-            logintxt = itemView.findViewById(R.id.logintxt);
+            subjecttxt = itemView.findViewById(R.id.subjecttxt);
 
         }
     }
 
-    public CustomAdapter(Context context, ArrayList login, RecyclerView recyclerView){
+    public CustomAdapter(Context context, ArrayList subject, RecyclerView recyclerView){
         this.context = context;
-        this.login = login;
+        this.subject = subject;
         this.recyclerView = recyclerView;
 
     }
@@ -52,13 +57,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.logintxt.setText(login.get(position).toString());
+        holder.subjecttxt.setText(subject.get(position).toString());
 
-        holder.logintxt.setOnClickListener(new OnClickListener() {
+        holder.subjecttxt.setOnClickListener(new OnClickListener() {
+            // Transfering to a new tab with execise when clicking on subject with data stored in intent variable
             @Override
             public void onClick(View viewIn) {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(context.getApplicationContext());
-                CharSequence c = holder.logintxt.getText().toString();
+                CharSequence c = holder.subjecttxt.getText().toString();
                 int subject_id = dataBaseHelper.getSubjectId(String.valueOf(c));
                 Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
                 if(dataBaseHelper.getAllUserLecturesCount( user_ID, subject_id)){
@@ -76,7 +82,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return login.size();
+        return subject.size();
     }
 
 
