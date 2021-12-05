@@ -23,6 +23,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 // Adding new value
 public class EventEditActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class EventEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_edit);
         initWidgets();
         time = LocalTime.now();
-        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(selectedDate));
+        eventDateTV.setText(CalendarUtils.formattedDate(selectedDate));
         eventTimeTV.setText(CalendarUtils.formattedTime(time));
 
         Toolbar toolbar = findViewById(R.id.topBar);
@@ -67,7 +68,7 @@ public class EventEditActivity extends AppCompatActivity {
     // Save data
     public void saveEventAction(View view) {
         String eventName = eventNameET.getText().toString();
-        String subjectName = SubjectNameET.getText().toString();
+        String subjectName = SubjectNameET.getText().toString().toUpperCase(Locale.ROOT);
 
         // Try catch correct time format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
@@ -85,7 +86,7 @@ public class EventEditActivity extends AppCompatActivity {
 
         // Check if name isn't empty
         if (eventName.equals("")) {
-            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Jméno termínu je prázdné!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -96,7 +97,7 @@ public class EventEditActivity extends AppCompatActivity {
 
         Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
         if (subject_ID == -1) {
-            Toast.makeText(this, "Subject does not exists!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Zkratka předmětu neexistuje!", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -9,6 +9,7 @@ package com.example.wis.ui.calendar;
 
 import static com.example.wis.ui.calendar.CalendarUtils.daysInMonthArray;
 import static com.example.wis.ui.calendar.CalendarUtils.monthYearFromDate;
+import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +36,6 @@ import com.example.wis.databinding.FragmentCalendarBinding;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 
 // Fragment for monthly calendar
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
@@ -92,8 +93,12 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         button_new_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EventEditActivity.class);
-                startActivity(intent);
+                if (selectedDate.isBefore(LocalDate.now())) {
+                    Toast.makeText(getContext(), "Nelze přidat termín do minulosti!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), EventEditActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -152,6 +157,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
     /**
      * Go to previous month and reload view
+     *
      * @param view current view
      */
     public void previousMonthAction(View view) {
@@ -161,6 +167,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
     /**
      * Go to next month and reload view
+     *
      * @param view current view
      */
     public void nextMonthAction(View view) {

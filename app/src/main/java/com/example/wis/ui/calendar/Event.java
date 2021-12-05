@@ -35,8 +35,7 @@ public class Event {
         ArrayList<Event> events = new ArrayList<>();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String formattedString = selectedDate.format(formatter);
+        String formattedString = date.format(formatter);
         List<DeadlineModel> dList;
         dList = db.getUserDeadlinesList(user_ID, formattedString);
 
@@ -46,7 +45,8 @@ public class Event {
         }
 
         for (DeadlineModel model : dList) {
-            if (db.CheckDeadlineActivity(model.getDeadline_id())) {
+            if (db.CheckDeadlineActivity(model.getDeadline_id()) &&
+                    LocalDate.parse(model.getDeadline_time(), formatter).isAfter(LocalDate.now())) {
                 Event event = new Event(
                         model.getDeadline_name(),
                         LocalDate.parse(model.getDeadline_time(), formatter),

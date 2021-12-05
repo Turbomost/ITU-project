@@ -27,7 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItemListener {
+public class WeekViewActivity extends Fragment {
 
     Button button_prev;
     Button button_next;
@@ -113,10 +113,5 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
             default:
                 return 7;
         }
-    }
-
-    @Override
-    public void onItemClick(int position, LocalDate date) {
-
     }
 }
