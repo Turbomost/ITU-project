@@ -571,72 +571,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //vsetky predmety konkretneho usera
-   /* public List<SubjectModel> getAllUserSubjects(int user_id) {
 
-        List<SubjectModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS +  " FROM " + SUBJECT_TABLE+ " INNER JOIN " +USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int subject_id = cursor.getInt(0);
-                String subject_name = cursor.getString(1);
-                String subject_shortcut = cursor.getString(2);
-                String subject_class = cursor.getString(3);
-
-                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    } */
-
-    //vsetky prednasky/cvika konkretneho usera
-    /*  public List<LectureModel> getAllUserLectures(int user_id) {
-
-        List<LectureModel> returnList = new ArrayList<>();
-
-        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE  + ", " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID  +  " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                int lecture_id = cursor.getInt(0);
-                String lecture_start = cursor.getString(1);
-                String lecture_end = cursor.getString(2);
-                String lecture_type = cursor.getString(3);
-                int subject_id = cursor.getInt(4);
-
-                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-        cursor.close();
-        db.close();
-        return returnList;
-
-    }*/
 
     //vsetky terminy konkretneho predmetu
     public Cursor getUserDeadlines(int user_id) {
@@ -647,25 +582,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
-        /*
-        if (cursor.moveToFirst()) {
-            do {
-                int deadline_id = cursor.getInt(0);
-                String deadline_name = cursor.getString(1);
-                String deadline_time = cursor.getString(2);
-                int subject_id = cursor.getInt(3);
-
-                DeadlineModel newmodel = new DeadlineModel(deadline_id, deadline_name, deadline_time, subject_id);
-                returnList.add(newmodel);
-
-            } while (cursor.moveToNext());
-
-        } else {
-
-            //
-        }
-
-         */
         return cursor;
     }
 
@@ -827,6 +743,71 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
 
     }
+    public List<LectureViewModel> getAllUserLecturesP(int user_id, int subject_id){
+
+        List<LectureViewModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " INNER JOIN " + SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID +  " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + "= \"p\") ";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String lecture_day = cursor.getString(0);
+                String lecture_start = cursor.getString(1);
+                String lecture_end = cursor.getString(2);
+                String subject_shortcut = cursor.getString(3);
+                String lecture_type = cursor.getString(4);
+
+                LectureViewModel newmodel = new LectureViewModel(lecture_day,lecture_start,lecture_end,subject_shortcut,lecture_type);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
+    public List<LectureViewModel> getAllUserLecturesC(int user_id, int subject_id) {
+
+        List<LectureViewModel> returnList = new ArrayList<>();
+
+        String queryString = " SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + USER_LECTURE_TABLE + " INNER JOIN "+ LECTURE_TABLE + " ON " +  LECTURE_TABLE + "." + COLUMN_LECTURE_ID + "=" + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " INNER JOIN " + SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + COLUMN_USER_LECTURE_STATUS + " = 1";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                String lecture_day = cursor.getString(0);
+                String lecture_start = cursor.getString(1);
+                String lecture_end = cursor.getString(2);
+                String subject_shortcut = cursor.getString(3);
+                String lecture_type = cursor.getString(4);
+
+                LectureViewModel newmodel = new LectureViewModel(lecture_day,lecture_start,lecture_end,subject_shortcut,lecture_type);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }
 }
     /*
     public  boolean deleteOne(UserModel userModel){
@@ -843,4 +824,70 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
     */
+//vsetky predmety konkretneho usera
+   /* public List<SubjectModel> getAllUserSubjects(int user_id) {
+
+        List<SubjectModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_NAME + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_CLASS +  " FROM " + SUBJECT_TABLE+ " INNER JOIN " +USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int subject_id = cursor.getInt(0);
+                String subject_name = cursor.getString(1);
+                String subject_shortcut = cursor.getString(2);
+                String subject_class = cursor.getString(3);
+
+                SubjectModel newmodel = new SubjectModel(subject_id, subject_name, subject_shortcut, subject_class);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    } */
+
+//vsetky prednasky/cvika konkretneho usera
+    /*  public List<LectureModel> getAllUserLectures(int user_id) {
+
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE  + ", " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID  +  " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int lecture_id = cursor.getInt(0);
+                String lecture_start = cursor.getString(1);
+                String lecture_end = cursor.getString(2);
+                String lecture_type = cursor.getString(3);
+                int subject_id = cursor.getInt(4);
+
+                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
+                returnList.add(newmodel);
+
+            } while (cursor.moveToNext());
+
+        } else {
+
+            //
+        }
+
+        cursor.close();
+        db.close();
+        return returnList;
+
+    }*/
 
