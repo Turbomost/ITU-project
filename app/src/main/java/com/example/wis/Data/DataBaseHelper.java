@@ -109,6 +109,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (11,\"Tue\",\"14:00\", \"16:50\",\"Jiří Hanák\", \"c\",1)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (12,\"Thu\",\"12:00\", \"13:50\",\"Anna Silnova\", \"c\",1)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (13,\"Thu\",\"10:00\", \"11:50\",\"Jiři Novak\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (14,\"Fri\",\"10:00\", \"11:50\",\"Fuchs\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (15,\"Tue\",\"10:00\", \"11:50\",\"Rebenda\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (16,\"Tue\",\"12:00\", \"13:50\",\"Vítovec\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (17,\"Wen\",\"10:00\", \"11:50\",\"Fuchs\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (18,\"Wen\",\"12:00\", \"13:50\",\"Hlavičková\", \"c\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (19,\"Thu\",\"07:00\", \"08:50\",\"Fusek\", \"c\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (20,\"Fri\",\"08:00\", \"09:50\",\"Hlavičková\", \"c\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (21,\"Tue\",\"16:00\", \"17:50\",\"Fusek\", \"c\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (22,\"Thu\",\"16:00\", \"17:50\",\"Hlavičková\", \"c\",6)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (1,1,1)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (2,1,2)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (3,1,3)");
@@ -787,6 +796,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         return cursor;
+
+    }
+
+    public boolean getAllUserLecturesCount(int user_id, int subject_id) {
+
+        List<LectureModel> returnList = new ArrayList<>();
+
+        String queryString =  "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + "=" + subject_id +") AND (" + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + "=\"c\") " ;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        int count = cursor.getCount();
+
+        cursor.close();
+        close();
+
+        if (count > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 

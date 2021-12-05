@@ -10,6 +10,8 @@ import android.view.View.OnClickListener;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
 import com.example.wis.R;
 import com.example.wis.ui.home.Excercise.ExcerciseActivity;
 
@@ -54,13 +56,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.logintxt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View viewIn) {
-
+                DataBaseHelper dataBaseHelper = new DataBaseHelper(context.getApplicationContext());
                 CharSequence c = holder.logintxt.getText().toString();
-                Intent intent = new Intent(context, ExcerciseActivity.class);
-                intent.putExtra("subject_name",c);
-                context.startActivity(intent);
-
-                return;
+                int subject_id = dataBaseHelper.getSubjectId(String.valueOf(c));
+                Integer user_ID= Integer.valueOf((SharedPref.readSharedSetting(context, "UserID", "-1")));
+                if(dataBaseHelper.getAllUserLecturesCount( user_ID, subject_id)){
+                    Intent intent = new Intent(context, ExcerciseActivity.class);
+                    intent.putExtra("subject_name", c);
+                    context.startActivity(intent);
+                }
             }
         });
 
