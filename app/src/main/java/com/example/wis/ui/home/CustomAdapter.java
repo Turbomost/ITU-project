@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +65,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                     Intent intent = new Intent(context, ExcerciseActivity.class);
                     intent.putExtra("subject_name", c);
                     context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Předmět nemá cvičení", Toast.LENGTH_SHORT).show();
                 }
             }
         });
