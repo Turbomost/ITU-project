@@ -192,7 +192,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean insertDeadline(DeadlineModel deadline) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_DEADLINE_ID, deadline.getDeadline_id());
+        //values.put(COLUMN_DEADLINE_ID, deadline.getDeadline_id());
         values.put(COLUMN_DEADLINE_NAME, deadline.getDeadline_name());
         values.put(COLUMN_DEADLINE_TIME, deadline.getDeadline_time());
         values.put(COLUMN_SUBJECT_ID, deadline.getSubject_id());
