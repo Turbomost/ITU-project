@@ -34,8 +34,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         // Printing format for events
         String eventTitle = "<font color=#00A9E0><b>" + event.getName() + "</b></font>" +
                 "\t" + "<font color=#000000>" +
-                CalendarUtils.formattedTime(event.getTime()) +
-                " - " + CalendarUtils.formattedTime(event.getTime2()) + "</font>";
+                CalendarUtils.formattedTime(event.getTime())+ "</font>";
         eventCellTV.setText(Html.fromHtml(eventTitle));
         return convertView;
     }

@@ -26,7 +26,6 @@ public class EventEditActivity extends AppCompatActivity {
     private TextView eventDateTV, eventTimeTV, eventTimeTV2;
 
     private LocalTime time;
-    private LocalTime time2;
 
     // Set basic values
     @Override
@@ -35,10 +34,8 @@ public class EventEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_edit);
         initWidgets();
         time = LocalTime.now();
-        time2 = LocalTime.now().plusHours(1);
         eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
         eventTimeTV.setText(CalendarUtils.formattedTime(time));
-        eventTimeTV2.setText(CalendarUtils.formattedTime(time2));
 
         Toolbar toolbar = findViewById(R.id.topBar);
         setSupportActionBar(toolbar);
@@ -59,7 +56,6 @@ public class EventEditActivity extends AppCompatActivity {
         eventNameET = findViewById(R.id.eventNameET);
         eventDateTV = findViewById(R.id.eventDateTV);
         eventTimeTV = findViewById(R.id.eventTimeTV);
-        eventTimeTV2 = findViewById(R.id.eventTimeTV2);
     }
 
     // Save data
@@ -79,22 +75,6 @@ public class EventEditActivity extends AppCompatActivity {
                 return;
             }
         }
-        try {
-            time2 = LocalTime.parse(eventTimeTV2.getText(), formatter);
-        } catch (Exception a) {
-            try {
-                time2 = LocalTime.parse(eventTimeTV2.getText(), formatter2);
-            } catch (Exception b) {
-                Toast.makeText(this, "Invalid time format.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        // Check correct time area
-        if (time.compareTo(time2) > 0) {
-            Toast.makeText(this, "Event is within more than one day", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         // Check if name isn't empty
         if (eventName.equals("")) {
@@ -103,10 +83,8 @@ public class EventEditActivity extends AppCompatActivity {
         }
 
         // Store data into list
-        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, time2);
+        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
         Event.eventsList.add(newEvent);
-
-        //TODO add to database
 
         // Sort data
         Collections.sort(Event.eventsList, new Comparator<Event>() {

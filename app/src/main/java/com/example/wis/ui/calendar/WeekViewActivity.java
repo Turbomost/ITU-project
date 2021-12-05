@@ -1,9 +1,5 @@
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarUtils.daysInWeekArray;
-import static com.example.wis.ui.calendar.CalendarUtils.monthYearFromDate;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +9,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
+import com.example.wis.Models.LectureViewModel;
 import com.example.wis.R;
 import com.example.wis.databinding.FragmentWeekViewBinding;
+import com.github.tlaabs.timetableview.Schedule;
+import com.github.tlaabs.timetableview.Time;
+import com.github.tlaabs.timetableview.TimetableView;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItemListener {
 
@@ -34,12 +34,14 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
     Button button_new_event;
     View view;
 
-    private ListView hourListView;
+    private TimetableView timetable;
+    private androidx.gridlayout.widget.GridLayout hourListView;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
     private com.example.wis.ui.calendar.CalendarViewModel WeekViewModel;
     private FragmentWeekViewBinding binding;
+    private LocalTime time;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,132 +49,70 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
 
         // Get it of calendar items
         view = inflater.inflate(R.layout.fragment_week_view, container, false);
-        calendarRecyclerView = (RecyclerView) view.findViewById(R.id.calendarRecyclerView);
-        monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
         CalendarUtils.selectedDate = LocalDate.now();
-        eventListView = view.findViewById(R.id.eventListView);
-        hourListView = view.findViewById(R.id.hourListView);
+        timetable = view.findViewById(R.id.timetable);
 
-        // Initialize the calendar
-        super.onCreate(savedInstanceState);
-        initWidgets();
-        setWeekView();
+        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
+        DataBaseHelper db = new DataBaseHelper(getContext());
 
-        // Set up buttons clicks for next and previous week
-        button_prev = (Button) view.findViewById(R.id.button_prev);
-        button_prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousWeekAction(v);
-            }
-        });
+        List<LectureViewModel> list = new ArrayList<>();
 
-        button_next = (Button) view.findViewById(R.id.button_next);
-        button_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextWeekAction(v);
-            }
-        });
+        list = db.getAllUserLecturesP(user_ID);
+        if (list.size() > 0) {
+            viewTimetable(list, timetable);
+        }
 
-        // Call create new event activity
-        button_new_event = (Button) view.findViewById(R.id.button_new_event);
-        button_new_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EventEditActivity.class);
-                startActivity(intent);
-            }
-        });
+        list = db.getAllUserLecturesC(user_ID);
 
-        // Bottom navigation
-        WeekViewModel =
-                new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
-
-        binding = FragmentWeekViewBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textCalendar;
-        WeekViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-
-        });
-
+        if (list.size() > 0) {
+            viewTimetable(list, timetable);
+        }
         return view;
     }
 
-    // Set up weekly calendar
-    private void initWidgets() {
-        calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView);
-        monthYearText = view.findViewById(R.id.monthYearTV);
-        eventListView = view.findViewById(R.id.eventListView);
-    }
+    private void viewTimetable(List<LectureViewModel> list, TimetableView timetable) {
+        ArrayList<Schedule> schedules = new ArrayList<Schedule>();
+        for (int i = 0; i < list.size(); i++) {
+            Schedule schedule = new Schedule();
+            LectureViewModel Item = list.get(i);
 
-    // Get data from array
-    private void setWeekView() {
-        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
+            schedule.setDay(dayToInt(Item.getLecture_day()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
-        calendarRecyclerView.setLayoutManager(layoutManager);
-        calendarRecyclerView.setAdapter(calendarAdapter);
-        setHourAdapter();
+            schedule.setClassTitle(Item.getSubject_shortcut());
+            schedule.setClassPlace(Item.getLecture_type());
+            //schedule.setProfessorName(Item.getProfessor());
 
-    }
+            time = LocalTime.parse(Item.getLecture_start(), formatter);
+            schedule.setStartTime(new Time(time.getHour(), time.getMinute()));
 
-    private ArrayList<HourEvent> hourEventList()
-    {
-        ArrayList<HourEvent> list = new ArrayList<>();
+            time = LocalTime.parse(Item.getLecture_end(), formatter);
+            schedule.setEndTime(new Time(time.getHour(), time.getMinute()));
 
-        for(int hour = 0; hour < 24; hour++)
-        {
-            LocalTime time = LocalTime.of(hour, 0);
-            ArrayList<Event> events = Event.eventsForDateAndTime(CalendarUtils.selectedDate, time);
-            HourEvent hourEvent = new HourEvent(time, events);
-            list.add(hourEvent);
+            schedules.add(schedule);
         }
-
-        return list;
+        timetable.add(schedules);
     }
 
-    public void previousWeekAction(View view) {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
-        setWeekView();
+    private int dayToInt(String lecture_day) {
+        switch (lecture_day) {
+            case "Mon":
+                return 0;
+            case "Tue":
+                return 1;
+            case "Wen":
+                return 2;
+            case "Thu":
+                return 3;
+            case "Fri":
+                return 4;
+            default:
+                return 7;
+        }
     }
 
-    public void nextWeekAction(View view) {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
-        setWeekView();
-    }
-
-    // Select one date
     @Override
     public void onItemClick(int position, LocalDate date) {
-        CalendarUtils.selectedDate = date;
-        setWeekView();
-    }
 
-    // Restart view
-    @Override
-    public void onResume() {
-        super.onResume();
-        setHourAdapter();
-    }
-
-
-    private void setHourAdapter ()
-    {
-        HourAdapter hourAdapter = new HourAdapter(getActivity().getApplicationContext(), hourEventList());
-        hourListView.setAdapter(hourAdapter);
-    }
-
-    private void setEventAdapter() {
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
-        eventListView.setAdapter(eventAdapter);
     }
 }

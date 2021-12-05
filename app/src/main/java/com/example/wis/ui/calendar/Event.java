@@ -1,11 +1,9 @@
 package com.example.wis.ui.calendar;
 
-import java.text.SimpleDateFormat;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 // Functions for events
 public class Event {
@@ -15,15 +13,11 @@ public class Event {
     private String name;
     private LocalDate date;
     private LocalTime time;
-    private LocalTime time2;
-    //private int eventType;
 
-    public Event(String name, LocalDate date, LocalTime time, LocalTime time2/*, int eventType*/) {
+    public Event(String name, LocalDate date, LocalTime time) {
         this.name = name;
         this.date = date;
         this.time = time;
-        this.time2 = time2;
-       // this.eventType = eventType;
     }
 
     // Return list of events for given date
@@ -32,21 +26,6 @@ public class Event {
 
         for (Event event : eventsList) {
             if (event.getDate().equals(date))
-                events.add(event);
-        }
-
-        return events;
-    }
-
-    public static ArrayList<Event> eventsForDateAndTime(LocalDate date, LocalTime time)
-    {
-        ArrayList<Event> events = new ArrayList<>();
-
-        for(Event event : eventsList) {
-            int eventHour = event.time.getHour();
-            int eventHour2 = event.time2.getHour();
-            int cellHour = time.getHour();
-            if (event.getDate().equals(date) && eventHour == cellHour)
                 events.add(event);
         }
 
@@ -73,15 +52,7 @@ public class Event {
         return time;
     }
 
-    public LocalTime getTime2() {
-        return time2;
-    }
-
     public void setTime(LocalTime time) {
         this.time = time;
-    }
-
-    public void setTime2(LocalTime time2) {
-        this.time2 = time2;
     }
 }

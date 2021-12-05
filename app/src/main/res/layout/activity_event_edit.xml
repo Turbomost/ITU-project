@@ -89,27 +89,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_height="92dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/eventTimeTV"
+        <TextView
+            android:id="@+id/tview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
             android:ems="5"
+            android:text="Time:"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/eventTimeTV2"
+            android:id="@+id/eventTimeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
             android:ems="5"
             android:textAlignment="center"
             android:textColor="@color/black"
