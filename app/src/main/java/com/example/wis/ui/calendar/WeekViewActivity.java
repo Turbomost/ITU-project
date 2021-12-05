@@ -80,8 +80,12 @@ public class WeekViewActivity extends Fragment implements CalendarAdapter.OnItem
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
 
             schedule.setClassTitle(Item.getSubject_shortcut());
-            schedule.setClassPlace(Item.getLecture_type());
-            //schedule.setProfessorName(Item.getProfessor());
+            if (Item.getLecture_type().equals("c")) {
+                schedule.setClassPlace("Cvičení");
+            }
+            else{
+                schedule.setClassPlace("Přednáška");
+            }
 
             time = LocalTime.parse(Item.getLecture_start(), formatter);
             schedule.setStartTime(new Time(time.getHour(), time.getMinute()));

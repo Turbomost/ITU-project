@@ -1,5 +1,7 @@
 package com.example.wis.ui.calendar;
 
+import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
+import com.example.wis.Models.DeadlineModel;
 import com.example.wis.R;
 import com.example.wis.ui.login.LoginActivity;
 
@@ -26,6 +30,7 @@ public class EventEditActivity extends AppCompatActivity {
     private TextView eventDateTV, eventTimeTV, SubjectNameET;
     private String subject;
     private LocalTime time;
+    private DeadlineModel dModel;
 
     // Set basic values
     @Override
@@ -34,7 +39,7 @@ public class EventEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_edit);
         initWidgets();
         time = LocalTime.now();
-        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
+        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(selectedDate));
         eventTimeTV.setText(CalendarUtils.formattedTime(time));
 
         Toolbar toolbar = findViewById(R.id.topBar);
@@ -73,7 +78,6 @@ public class EventEditActivity extends AppCompatActivity {
             try {
                 time = LocalTime.parse(eventTimeTV.getText(), formatter2);
             } catch (Exception b) {
-                // Toast.makeText(this, "Invalid time format.", Toast.LENGTH_SHORT).show();
                 // return;
                 time = LocalTime.parse("00:00");
             }
@@ -85,12 +89,28 @@ public class EventEditActivity extends AppCompatActivity {
             return;
         }
 
-        if (!subjectName.equals("")) {
-            // Check if subject exist
+        DataBaseHelper db = new DataBaseHelper(this);
+        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(this, "UserID", "-1")));
+
+        //Toast.makeText(this, subject_ID, Toast.LENGTH_SHORT).show();
+
+        Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
+        if (subject_ID == -1) {
+            Toast.makeText(this, "Subject does not exists!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
+        dModel = new DeadlineModel();
+        dModel.setSubject_id(subject_ID);
+        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedString = selectedDate.format(formatter);
+        dModel.setDeadline_time(formattedString);
+
+        dModel.setDeadline_name(eventName);
+        db.insertDeadline(dModel);
+
         // Store data into list
-        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, subjectName);
+        Event newEvent = new Event(eventName, selectedDate, time, subjectName);
         Event.eventsList.add(newEvent);
 
         // Sort data

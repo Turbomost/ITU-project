@@ -1,3 +1,10 @@
+/*
+ * CalendarAdapter.java
+ * Author     : xvalen29
+ * Fragment showing monthly calendar
+ * Showing unfinished events for selected date and highlight dates with events
+ */
+
 package com.example.wis.ui.calendar;
 
 import static com.example.wis.ui.calendar.CalendarUtils.daysInMonthArray;
@@ -20,6 +27,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
 import com.example.wis.R;
 import com.example.wis.databinding.FragmentCalendarBinding;
 
@@ -28,7 +37,6 @@ import java.util.ArrayList;
 
 
 // Fragment for monthly calendar
-// Currently without further usage
 public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
 
     View view;
@@ -46,19 +54,22 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        // Get it of calendar items
+        // Inflater for work with fragment
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        // Get IDs
         calendarRecyclerView = (RecyclerView) view.findViewById(R.id.calendarRecyclerView);
         monthYearText = (TextView) view.findViewById(R.id.monthYearTV);
-        CalendarUtils.selectedDate = LocalDate.now();
         eventListView = view.findViewById(R.id.eventListView);
 
         // Initialize the calendar
+        CalendarUtils.selectedDate = LocalDate.now();
         super.onCreate(savedInstanceState);
         initWidgets();
         setMonthView();
 
-        //Set up buttons clicks
+        // Set up buttons clicks
+        // PREVIOUS MONTH
         button_prev = (Button) view.findViewById(R.id.button_prev);
         button_prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +77,8 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
                 previousMonthAction(v);
             }
         });
+
+        // NEXT MONTH
         button_next = (Button) view.findViewById(R.id.button_next);
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,25 +98,21 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         });
 
         // Bottom navigation
-        calendarViewModel =
-                new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
-
+        calendarViewModel = new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
         final TextView textView = binding.textCalendar;
         calendarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-
         });
 
+        // Return new inflated view
         return view;
     }
 
-    // Restart view
+    // Restart view after creating new event
     @Override
     public void onResume() {
         super.onResume();
@@ -117,44 +126,67 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         binding = null;
     }
 
+    /**
+     * Set up monthly calendar
+     */
     private void initWidgets() {
         calendarRecyclerView = view.findViewById(R.id.calendarRecyclerView);
         monthYearText = view.findViewById(R.id.monthYearTV);
     }
 
+    /**
+     * Set GridLayoutManager and call adapter
+     */
     private void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
+
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+
         setEventAdapter();
     }
 
+    /**
+     * Go to previous month and reload view
+     * @param view current view
+     */
     public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    /**
+     * Go to next month and reload view
+     * @param view current view
+     */
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    /**
+     * Get events for current date and set adapter
+     */
+    private void setEventAdapter() {
+
+        DataBaseHelper db = new DataBaseHelper(getContext());
+        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate, db, user_ID);
+        EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
+        eventListView.setAdapter(eventAdapter);
+    }
+
+    // Select date
     @Override
     public void onItemClick(int position, LocalDate date) {
         if (date != null) {
             CalendarUtils.selectedDate = date;
             setMonthView();
         }
-    }
-
-    private void setEventAdapter() {
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
-        eventListView.setAdapter(eventAdapter);
     }
 }
 

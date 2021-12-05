@@ -1,8 +1,16 @@
 package com.example.wis.ui.calendar;
 
+import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
+
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
+import com.example.wis.Models.DeadlineModel;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 // Functions for events
 public class Event {
@@ -22,12 +30,30 @@ public class Event {
     }
 
     // Return list of events for given date
-    public static ArrayList<Event> eventsForDate(LocalDate date) {
+
+    public static ArrayList<Event> eventsForDate(LocalDate date,DataBaseHelper db, Integer user_ID){
         ArrayList<Event> events = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedString = selectedDate.format(formatter);
+        List<DeadlineModel> dList;
+        dList = db.getUserDeadlinesList(user_ID, formattedString);
 
         for (Event event : eventsList) {
             if (event.getDate().equals(date))
                 events.add(event);
+        }
+
+        for (DeadlineModel model : dList) {
+            if (db.CheckDeadlineActivity(model.getDeadline_id())) {
+                Event event = new Event(
+                        model.getDeadline_name(),
+                        LocalDate.parse(model.getDeadline_time(), formatter),
+                        LocalTime.MIDNIGHT,
+                        db.getSubjectName(model.getSubject_id()));
+                events.add(event);
+            }
         }
 
         return events;

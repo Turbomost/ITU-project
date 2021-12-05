@@ -1,3 +1,10 @@
+/*
+ * CalendarAdapter.java
+ * Author     : xvalen29
+ * Fragment showing monthly calendar
+ * Showing unfinished events for selected date and highlight dates with events
+ */
+
 package com.example.wis.ui.calendar;
 
 import java.time.DayOfWeek;
@@ -13,26 +20,43 @@ import java.util.Locale;
 public class CalendarUtils {
     public static LocalDate selectedDate;
 
-    // Date format
+    /**\
+     * Format given date to 'dd MMMM yyyy'
+     * @param date input date in LocalDate
+     * @return formatted date in String
+     */
     public static String formattedDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
         return date.format(formatter);
     }
 
-    // Time format
+    /**
+     * Format given time to 'HH:mm'
+     * @param time input time in LocalTime
+     * @return formatted time in String
+     */
     public static String formattedTime(LocalTime time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return time.format(formatter);
     }
 
-    // Return month from given date
+    /**
+     * Format given date to 'MMMM yyyy'
+     * @param date input date in LocalTime
+     * @return
+     */
     public static String monthYearFromDate(LocalDate date) {
         DateTimeFormatterBuilder formatter = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("MMMM yyyy");
         DateTimeFormatter f = formatter.toFormatter(Locale.ENGLISH);
         return date.format(f);
     }
 
-    // Return array of days in month by given date
+    /**
+     * Returns list of dates in month
+     * Return 42 days to fill in the grid
+     * @param date actual date
+     * @return ArrayList of LocalDates
+     */
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
 
@@ -57,33 +81,6 @@ public class CalendarUtils {
                 daysInMonthArray.add(LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), i - dayOfWeek));
         }
         return daysInMonthArray;
-    }
-
-    // Return array of days in week by given date
-    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
-        ArrayList<LocalDate> days = new ArrayList<>();
-        LocalDate current = sundayForDate(selectedDate);
-        LocalDate endDate = current.plusWeeks(1);
-
-        while (current.isBefore(endDate)) {
-            days.add(current);
-            current = current.plusDays(1);
-        }
-        return days;
-    }
-
-    // Return first sunday before given date
-    private static LocalDate sundayForDate(LocalDate current) {
-        LocalDate oneWeekAgo = current.minusWeeks(1);
-
-        while (current.isAfter(oneWeekAgo)) {
-            if (current.getDayOfWeek() == DayOfWeek.SUNDAY)
-                return current;
-
-            current = current.minusDays(1);
-        }
-
-        return null;
     }
 
 }

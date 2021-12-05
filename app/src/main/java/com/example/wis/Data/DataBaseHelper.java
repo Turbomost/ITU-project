@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -783,12 +784,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + "= \"" +shortcut+ "\") AND (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") ";
         Cursor cursor = db.rawQuery(queryString, null);
         int count = cursor.getCount();
+       // Log.e("tag",String.valueOf(cursor.moveToFirst(0)));
         if (count > 0) {
-            return cursor.getInt(0);
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+
         } else {
             return -1;
         }
-
+return -1;
     }
 
     public boolean CheckDeadlineActivity(int deadline_id){
