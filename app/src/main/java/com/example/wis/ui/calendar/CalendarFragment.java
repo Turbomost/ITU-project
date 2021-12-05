@@ -1,5 +1,5 @@
 /*
- * CalendarAdapter.java
+ * CalendarFragment.java
  * Author     : xvalen29
  * Fragment showing monthly calendar
  * Showing unfinished events for selected date and highlight dates with events

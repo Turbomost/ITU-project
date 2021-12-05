@@ -1,3 +1,10 @@
+/*
+ * EventAdapter.java
+ * Author     : xvalen29
+ * Adapter for events
+ * Printing events in calendar
+ */
+
 package com.example.wis.ui.calendar;
 
 import android.content.Context;
@@ -32,12 +39,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
         TextView subjectCellTV = convertView.findViewById(R.id.SubjectCellTV);
 
-        String part1 = "";
-        // Printing format for events
-        if (!event.getSubject().equals("")) {
-            part1 = event.getSubject();
-        }
-        subjectCellTV.setText(part1);
+        // Print subject and name
+        subjectCellTV.setText(event.getSubject());
         String eventTitle = " \t <font color=#00A9E0><b>" + event.getName() + "</b></font>";
 
         eventCellTV.setText(Html.fromHtml(eventTitle));

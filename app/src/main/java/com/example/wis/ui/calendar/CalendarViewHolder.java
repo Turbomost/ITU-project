@@ -1,3 +1,10 @@
+/*
+ * CalendarViewHolder.java
+ * Author     : xvalen29
+ * Calendar ViewHolder
+ * Handles OnClickListener
+ */
+
 package com.example.wis.ui.calendar;
 
 import android.view.View;
@@ -18,16 +25,20 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     private final ArrayList<LocalDate> days;
     private final CalendarAdapter.OnItemListener onItemListener;
 
+    // ViewHolder for Calendar
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days) {
+
         super(itemView);
         parentView = itemView.findViewById(R.id.parentView);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);
-        this.onItemListener = onItemListener;
-        itemView.setOnClickListener(this);
+
         this.days = days;
+        this.onItemListener = onItemListener;
+
+        itemView.setOnClickListener(this);
     }
 
-    // Calls onItemClick function which returns clicked date
+    // Calls onItemClick function on actual position
     @Override
     public void onClick(View view) {
         onItemListener.onItemClick(getAdapterPosition(), days.get(getAdapterPosition()));

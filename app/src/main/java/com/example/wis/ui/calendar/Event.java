@@ -1,9 +1,12 @@
+/*
+ * Event.java
+ * Author     : xvalen29
+ * Set up Event class
+ */
+
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
-
 import com.example.wis.Data.DataBaseHelper;
-import com.example.wis.Data.SharedPref;
 import com.example.wis.Models.DeadlineModel;
 
 import java.time.LocalDate;
@@ -15,13 +18,14 @@ import java.util.List;
 // Functions for events
 public class Event {
 
-    // Array for events
+    // ArrayList for events
     public static ArrayList<Event> eventsList = new ArrayList<>();
     private String name;
     private LocalDate date;
     private LocalTime time;
     private String subject;
 
+    // Time is no longer being used
     public Event(String name, LocalDate date, LocalTime time, String subject) {
         this.name = name;
         this.date = date;
@@ -29,9 +33,14 @@ public class Event {
         this.subject = subject;
     }
 
-    // Return list of events for given date
-
-    public static ArrayList<Event> eventsForDate(LocalDate date,DataBaseHelper db, Integer user_ID){
+    /**
+     * Returns ArrayList of events for given day
+     * @param date    selected date
+     * @param db      database
+     * @param user_ID actual user ID
+     * @return ArrayList
+     */
+    public static ArrayList<Event> eventsForDate(LocalDate date, DataBaseHelper db, Integer user_ID) {
         ArrayList<Event> events = new ArrayList<>();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -58,6 +67,8 @@ public class Event {
 
         return events;
     }
+
+    // Functions for returning and settings parameters
 
     public String getName() {
         return name;

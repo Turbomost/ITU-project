@@ -1,3 +1,8 @@
+/*
+ * EventEditActivity.java
+ * Author     : xvalen29
+ * Activity for creating new event
+ */
 package com.example.wis.ui.calendar;
 
 import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
@@ -28,24 +33,24 @@ import java.util.Locale;
 // Adding new value
 public class EventEditActivity extends AppCompatActivity {
     private EditText eventNameET;
-    private TextView eventDateTV, eventTimeTV, SubjectNameET;
-    private String subject;
+    private TextView eventDateTV, SubjectNameET;
     private LocalTime time;
     private DeadlineModel dModel;
 
     // Set basic values
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
-        time = LocalTime.now();
         eventDateTV.setText(CalendarUtils.formattedDate(selectedDate));
-        //eventTimeTV.setText(CalendarUtils.formattedTime(time));
 
+        // Set up top toolbar
         Toolbar toolbar = findViewById(R.id.topBar);
         setSupportActionBar(toolbar);
 
+        // Logout event
         ImageButton btn_logout = (ImageButton) findViewById(R.id.imageButton2);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,19 +62,53 @@ public class EventEditActivity extends AppCompatActivity {
         });
     }
 
-    // Link objects
+    /**
+     * Find TextEdits from view
+     */
     private void initWidgets() {
         eventNameET = findViewById(R.id.eventNameET);
         SubjectNameET = findViewById(R.id.SubjectET);
         eventDateTV = findViewById(R.id.eventDateTV);
     }
 
-    // Save data
+    /**
+     * Get input parameters and create new event
+     * @param view View
+     */
     public void saveEventAction(View view) {
+
+        // Get parameters
         String eventName = eventNameET.getText().toString();
         String subjectName = SubjectNameET.getText().toString().toUpperCase(Locale.ROOT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedString = selectedDate.format(formatter);
 
-        // Try catch correct time format
+
+        // Check if name isn't empty
+        if (eventName.equals("")) {
+            Toast.makeText(this, "Jméno termínu je prázdné!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Connect to database
+        DataBaseHelper db = new DataBaseHelper(this);
+        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(this, "UserID", "-1")));
+        Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
+
+        // Check if subject exists
+        if (subject_ID == -1) {
+            Toast.makeText(this, "Zkratka předmětu neexistuje!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Set up new DeadlineModel
+        dModel = new DeadlineModel();
+        dModel.setSubject_id(subject_ID);
+        dModel.setDeadline_time(formattedString);
+        dModel.setDeadline_name(eventName);
+        db.insertDeadline(dModel);
+
+        // Set time for events
         /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm");
         try {
@@ -83,43 +122,18 @@ public class EventEditActivity extends AppCompatActivity {
             }
         }*/
 
-        // Check if name isn't empty
-        if (eventName.equals("")) {
-            Toast.makeText(this, "Jméno termínu je prázdné!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        DataBaseHelper db = new DataBaseHelper(this);
-        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(this, "UserID", "-1")));
-
-        //Toast.makeText(this, subject_ID, Toast.LENGTH_SHORT).show();
-
-        Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
-        if (subject_ID == -1) {
-            Toast.makeText(this, "Zkratka předmětu neexistuje!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        dModel = new DeadlineModel();
-        dModel.setSubject_id(subject_ID);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String formattedString = selectedDate.format(formatter);
-        dModel.setDeadline_time(formattedString);
-
-        dModel.setDeadline_name(eventName);
-        db.insertDeadline(dModel);
-
         // Store data into list
         //Event newEvent = new Event(eventName, selectedDate, time, subjectName);
         //Event.eventsList.add(newEvent);
 
         // Sort data
-        /*Collections.sort(Event.eventsList, new Comparator<Event>() {
+        /* Collections.sort(Event.eventsList, new Comparator<Event>() {
             @Override
             public int compare(Event o1, Event o2) {
                 return o1.getTime().compareTo(o2.getTime());
             }
-        });*/
+        }); */
+
         finish();
     }
 }

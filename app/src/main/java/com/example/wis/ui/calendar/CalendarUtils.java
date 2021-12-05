@@ -1,8 +1,7 @@
 /*
- * CalendarAdapter.java
+ * CalendarUtils.java
  * Author     : xvalen29
- * Fragment showing monthly calendar
- * Showing unfinished events for selected date and highlight dates with events
+ * Calendar methods
  */
 
 package com.example.wis.ui.calendar;
