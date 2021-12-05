@@ -25,7 +25,7 @@ public class CalendarUtils {
      * @return formatted date in String
      */
     public static String formattedDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy");
         return date.format(formatter);
     }
 
