@@ -1,7 +1,6 @@
-package com.example.wis.ui;
+package com.example.wis.ui.list;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wis.CustomAdapter;
-import com.example.wis.DataBaseHelper;
-import com.example.wis.DeadlineModel;
-import com.example.wis.DeadlineViewModel;
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.ViewModels.DeadlineViewModel;
 import com.example.wis.R;
-import com.example.wis.SharedPref;
+import com.example.wis.Data.SharedPref;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlinesAdapter.ViewHolder> {

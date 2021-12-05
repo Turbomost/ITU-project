@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.ViewModels;
 
 public class LectureViewModel {
     private String lecture_day;

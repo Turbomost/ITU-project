@@ -11,10 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.wis.LoginActivity;
-import com.example.wis.MainActivity;
+import com.example.wis.ui.login.LoginActivity;
 import com.example.wis.R;
-import com.example.wis.SharedPref;
+import com.example.wis.Data.SharedPref;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

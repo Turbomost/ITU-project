@@ -1,12 +1,9 @@
-package com.example.wis;
+package com.example.wis.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,9 +11,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.transition.Transition;
 
+import com.example.wis.Data.SharedPref;
+import com.example.wis.R;
 import com.example.wis.databinding.ActivityMainBinding;
+import com.example.wis.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,20 +36,11 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_calendar, R.id.navigation_Week, R.id.navigation_list)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         Toolbar toolbar = findViewById(R.id.topBar);
         setSupportActionBar(toolbar);
 
-        /*
-        Bundle extras = getIntent().getExtras();
-        String username = null;
-        if (extras != null) {
-            username = extras.getString("username");
-
-        }
-         */
         ImageButton btn_logout = (ImageButton) findViewById(R.id.imageButton2);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override

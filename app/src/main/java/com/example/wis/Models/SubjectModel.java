@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.Models;
 
 import java.text.SimpleDateFormat;
 

@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.Models;
 
 public class UserModel {
     private int user_id;

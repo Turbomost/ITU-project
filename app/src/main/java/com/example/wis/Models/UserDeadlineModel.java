@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.Models;
 
 public class UserDeadlineModel {
     private int user_deadline_id;

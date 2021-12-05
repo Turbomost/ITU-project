@@ -1,12 +1,9 @@
 package com.example.wis.ui.list;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,29 +13,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wis.DeadlineViewModel;
-import com.example.wis.ui.DeadlinesAdapter;
-import com.example.wis.DataBaseHelper;
-import com.example.wis.DeadlineModel;
-import com.example.wis.SharedPref;
+import com.example.wis.ViewModels.DeadlineViewModel;
+import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.R;
 import com.example.wis.databinding.FragmentListBinding;
-import com.example.wis.ui.list.ListViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ListFragment extends Fragment {
 
     private com.example.wis.ui.list.ListViewModel listViewModel;
     private FragmentListBinding binding;
-
 
     RecyclerView rvDeadline;
     LinearLayoutManager layoutManager;
@@ -46,7 +33,6 @@ public class ListFragment extends Fragment {
     private ListViewModel ListViewModel;
     View view;
     DataBaseHelper databaseHelper;
-    //ArrayList<String> time,name,subject;
     List<DeadlineViewModel> deadlinelist = new ArrayList<DeadlineViewModel>();
     DeadlinesAdapter deadlinesAdapter;
     DeadlineViewModel deadline = new DeadlineViewModel();
@@ -54,10 +40,6 @@ public class ListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        //time = new ArrayList<>();
-        //name = new ArrayList<>();
-        //subject = new ArrayList<>();
 
         view = inflater.inflate(R.layout.fragment_list, container, false);
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
@@ -92,48 +74,5 @@ public class ListFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
-
-
-
-
-
-        /*
-        listViewModel =
-                new ViewModelProvider(this).get(com.example.wis.ui.list.ListViewModel.class);
-
-        binding = FragmentListBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        databaseHelper = new DataBaseHelper(root.getContext());
-        deadlineList = databaseHelper.getAllDeadlines();
-        view = inflater.inflate(R.layout.fragment_list, container, false);
-
-        deadlinesAdapter = new DeadlinesAdapter(root.getContext(), deadlineList);
-        rvDeadline = view.findViewById(R.id.rvDeadline);
-        layoutManager = new LinearLayoutManager(root.getContext());
-        rvDeadline.setLayoutManager(layoutManager);
-        rvDeadline.setHasFixedSize(true);
-        rvDeadline.setAdapter(deadlinesAdapter);
-
-        return root;
-        */
-
-
-
-
-
-
-
-        /*
-        final TextView textView = binding.textList;
-        listViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        */
 
 }

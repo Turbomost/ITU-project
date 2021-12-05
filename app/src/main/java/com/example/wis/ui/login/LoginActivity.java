@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.ui.login;
 
 
 import android.content.Intent;
@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
+import com.example.wis.ui.main.MainActivity;
+import com.example.wis.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,14 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //getSupportActionBar().hide();
-
         btnLogin = findViewById(R.id.btnLogin);
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
 
         databaseHelper = new DataBaseHelper(LoginActivity.this);
-        //databaseHelper.insertSampleData(LoginActivity.this);
 
         if(Integer.valueOf(SharedPref.readSharedSetting(LoginActivity.this, "UserID", "-1"))!=-1){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

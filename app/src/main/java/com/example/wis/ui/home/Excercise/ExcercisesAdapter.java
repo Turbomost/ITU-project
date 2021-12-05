@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.ui.home.Excercise;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
+import com.example.wis.ViewModels.ExcerciseViewModel;
+import com.example.wis.R;
 
 import java.util.List;
 

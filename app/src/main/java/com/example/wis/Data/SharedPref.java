@@ -1,4 +1,4 @@
-package com.example.wis;
+package com.example.wis.Data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

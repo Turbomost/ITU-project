@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ui.main.MainActivity"></activity>
         <activity android:name=".ui.calendar.EventEditActivity"></activity>
-        <activity android:name=".ExcerciseActivity"></activity>
+        <activity android:name=".ui.home.Excercise.ExcerciseActivity"></activity>
         <activity
             android:exported="true"
-            android:name=".LoginActivity">
+            android:name=".ui.login.LoginActivity">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
