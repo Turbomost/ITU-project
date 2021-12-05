@@ -11,9 +11,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.wis.ui.login.LoginActivity;
-import com.example.wis.R;
 import com.example.wis.Data.SharedPref;
+import com.example.wis.R;
+import com.example.wis.ui.login.LoginActivity;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,8 +23,8 @@ import java.util.Comparator;
 // Adding new value
 public class EventEditActivity extends AppCompatActivity {
     private EditText eventNameET;
-    private TextView eventDateTV, eventTimeTV, eventTimeTV2;
-
+    private TextView eventDateTV, eventTimeTV, SubjectNameET;
+    private String subject;
     private LocalTime time;
 
     // Set basic values
@@ -54,6 +54,7 @@ public class EventEditActivity extends AppCompatActivity {
     // Link objects
     private void initWidgets() {
         eventNameET = findViewById(R.id.eventNameET);
+        SubjectNameET = findViewById(R.id.SubjectET);
         eventDateTV = findViewById(R.id.eventDateTV);
         eventTimeTV = findViewById(R.id.eventTimeTV);
     }
@@ -61,6 +62,7 @@ public class EventEditActivity extends AppCompatActivity {
     // Save data
     public void saveEventAction(View view) {
         String eventName = eventNameET.getText().toString();
+        String subjectName = SubjectNameET.getText().toString();
 
         // Try catch correct time format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
@@ -71,8 +73,9 @@ public class EventEditActivity extends AppCompatActivity {
             try {
                 time = LocalTime.parse(eventTimeTV.getText(), formatter2);
             } catch (Exception b) {
-                Toast.makeText(this, "Invalid time format.", Toast.LENGTH_SHORT).show();
-                return;
+                // Toast.makeText(this, "Invalid time format.", Toast.LENGTH_SHORT).show();
+                // return;
+                time = LocalTime.parse("00:00");
             }
         }
 
@@ -82,8 +85,12 @@ public class EventEditActivity extends AppCompatActivity {
             return;
         }
 
+        if (!subjectName.equals("")) {
+            // Check if subject exist
+        }
+
         // Store data into list
-        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
+        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time, subjectName);
         Event.eventsList.add(newEvent);
 
         // Sort data

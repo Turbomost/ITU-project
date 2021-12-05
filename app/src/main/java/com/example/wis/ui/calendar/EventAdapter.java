@@ -30,11 +30,18 @@ public class EventAdapter extends ArrayAdapter<Event> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_cell, parent, false);
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
+        TextView subjectCellTV = convertView.findViewById(R.id.SubjectCellTV);
 
+        String part1 = "";
         // Printing format for events
-        String eventTitle = "<font color=#00A9E0><b>" + event.getName() + "</b></font>" +
-                "\t" + "<font color=#000000>" +
-                CalendarUtils.formattedTime(event.getTime())+ "</font>";
+        if (!event.getSubject().equals("")) {
+            part1 = event.getSubject();
+        }
+        subjectCellTV.setText(part1);
+        String eventTitle =
+                "<font color=#000000>" + CalendarUtils.formattedTime(event.getTime()) + " - \t</font>" +
+                "<font color=#00A9E0><b>" + event.getName() + "</b></font>";
+
         eventCellTV.setText(Html.fromHtml(eventTitle));
         return convertView;
     }

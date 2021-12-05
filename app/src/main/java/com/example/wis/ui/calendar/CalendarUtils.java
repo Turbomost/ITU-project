@@ -21,7 +21,7 @@ public class CalendarUtils {
 
     // Time format
     public static String formattedTime(LocalTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return time.format(formatter);
     }
 

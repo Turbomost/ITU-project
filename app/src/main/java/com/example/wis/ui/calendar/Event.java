@@ -1,6 +1,5 @@
 package com.example.wis.ui.calendar;
 
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -13,11 +12,13 @@ public class Event {
     private String name;
     private LocalDate date;
     private LocalTime time;
+    private String subject;
 
-    public Event(String name, LocalDate date, LocalTime time) {
+    public Event(String name, LocalDate date, LocalTime time, String subject) {
         this.name = name;
         this.date = date;
         this.time = time;
+        this.subject = subject;
     }
 
     // Return list of events for given date
@@ -38,6 +39,14 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public LocalDate getDate() {
