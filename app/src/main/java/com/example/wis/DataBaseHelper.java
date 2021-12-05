@@ -743,7 +743,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return cursor;
 
     }
-    public List<LectureViewModel> getAllUserLecturesP(int user_id, int subject_id){
+    public List<LectureViewModel> getAllUserLecturesP(int user_id){
 
         List<LectureViewModel> returnList = new ArrayList<>();
 
@@ -775,11 +775,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return returnList;
 
     }
-    public List<LectureViewModel> getAllUserLecturesC(int user_id, int subject_id) {
+
+    public List<LectureViewModel> getAllUserLecturesC(int user_id) {
 
         List<LectureViewModel> returnList = new ArrayList<>();
 
-        String queryString = " SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + USER_LECTURE_TABLE + " INNER JOIN "+ LECTURE_TABLE + " ON " +  LECTURE_TABLE + "." + COLUMN_LECTURE_ID + "=" + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " INNER JOIN " + SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + COLUMN_USER_LECTURE_STATUS + " = 1";
+        String queryString = " SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + USER_LECTURE_TABLE + " INNER JOIN "+ LECTURE_TABLE + " ON " +  LECTURE_TABLE + "." + COLUMN_LECTURE_ID + "=" + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " INNER JOIN " + SUBJECT_TABLE + " ON " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + COLUMN_USER_LECTURE_STATUS + " = 1) AND (" + USER_LECTURE_TABLE + "." + COLUMN_USER_ID + " = " + user_id +")";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
