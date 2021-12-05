@@ -122,8 +122,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (14,\"Fri\",\"10:00\", \"11:50\",\"Fuchs\", \"c\",4)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (15,\"Tue\",\"10:00\", \"11:50\",\"Rebenda\", \"c\",4)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (16,\"Tue\",\"12:00\", \"13:50\",\"Vítovec\", \"c\",4)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (17,\"Wen\",\"10:00\", \"11:50\",\"Fuchs\", \"c\",4)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (18,\"Wen\",\"12:00\", \"13:50\",\"Hlavičková\", \"c\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (17,\"Wed\",\"10:00\", \"11:50\",\"Fuchs\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (18,\"Wed\",\"12:00\", \"13:50\",\"Hlavičková\", \"c\",6)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (19,\"Thu\",\"07:00\", \"08:50\",\"Fusek\", \"c\",6)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (20,\"Fri\",\"08:00\", \"09:50\",\"Hlavičková\", \"c\",6)");
         sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (21,\"Tue\",\"16:00\", \"17:50\",\"Fusek\", \"c\",6)");

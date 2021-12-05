@@ -20,7 +20,7 @@ import java.util.Locale;
 public class CalendarUtils {
     public static LocalDate selectedDate;
 
-    /**\
+    /**
      * Format given date to 'dd MMMM yyyy'
      * @param date input date in LocalDate
      * @return formatted date in String

@@ -46,7 +46,7 @@ public class Event {
 
         for (DeadlineModel model : dList) {
             if (db.CheckDeadlineActivity(model.getDeadline_id()) &&
-                    LocalDate.parse(model.getDeadline_time(), formatter).isAfter(LocalDate.now())) {
+                    !(LocalDate.parse(model.getDeadline_time(), formatter).isBefore(LocalDate.now()))) {
                 Event event = new Event(
                         model.getDeadline_name(),
                         LocalDate.parse(model.getDeadline_time(), formatter),

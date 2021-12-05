@@ -41,7 +41,7 @@ public class EventEditActivity extends AppCompatActivity {
         initWidgets();
         time = LocalTime.now();
         eventDateTV.setText(CalendarUtils.formattedDate(selectedDate));
-        eventTimeTV.setText(CalendarUtils.formattedTime(time));
+        //eventTimeTV.setText(CalendarUtils.formattedTime(time));
 
         Toolbar toolbar = findViewById(R.id.topBar);
         setSupportActionBar(toolbar);
@@ -62,7 +62,6 @@ public class EventEditActivity extends AppCompatActivity {
         eventNameET = findViewById(R.id.eventNameET);
         SubjectNameET = findViewById(R.id.SubjectET);
         eventDateTV = findViewById(R.id.eventDateTV);
-        eventTimeTV = findViewById(R.id.eventTimeTV);
     }
 
     // Save data
@@ -71,7 +70,7 @@ public class EventEditActivity extends AppCompatActivity {
         String subjectName = SubjectNameET.getText().toString().toUpperCase(Locale.ROOT);
 
         // Try catch correct time format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+        /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm");
         try {
             time = LocalTime.parse(eventTimeTV.getText(), formatter);
@@ -82,7 +81,7 @@ public class EventEditActivity extends AppCompatActivity {
                 // return;
                 time = LocalTime.parse("00:00");
             }
-        }
+        }*/
 
         // Check if name isn't empty
         if (eventName.equals("")) {
@@ -103,7 +102,7 @@ public class EventEditActivity extends AppCompatActivity {
 
         dModel = new DeadlineModel();
         dModel.setSubject_id(subject_ID);
-        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String formattedString = selectedDate.format(formatter);
         dModel.setDeadline_time(formattedString);
 
@@ -111,16 +110,16 @@ public class EventEditActivity extends AppCompatActivity {
         db.insertDeadline(dModel);
 
         // Store data into list
-        Event newEvent = new Event(eventName, selectedDate, time, subjectName);
-        Event.eventsList.add(newEvent);
+        //Event newEvent = new Event(eventName, selectedDate, time, subjectName);
+        //Event.eventsList.add(newEvent);
 
         // Sort data
-        Collections.sort(Event.eventsList, new Comparator<Event>() {
+        /*Collections.sort(Event.eventsList, new Comparator<Event>() {
             @Override
             public int compare(Event o1, Event o2) {
                 return o1.getTime().compareTo(o2.getTime());
             }
-        });
+        });*/
         finish();
     }
 }

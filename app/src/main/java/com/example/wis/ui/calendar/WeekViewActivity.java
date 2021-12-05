@@ -104,7 +104,7 @@ public class WeekViewActivity extends Fragment {
                 return 0;
             case "Tue":
                 return 1;
-            case "Wen":
+            case "Wed":
                 return 2;
             case "Thu":
                 return 3;
