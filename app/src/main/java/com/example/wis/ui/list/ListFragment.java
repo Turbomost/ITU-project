@@ -32,29 +32,31 @@ public class ListFragment extends Fragment {
     private com.example.wis.ui.list.ListViewModel listViewModel;
     private FragmentListBinding binding;
 
-    RecyclerView rvDeadline;
-    LinearLayoutManager layoutManager;
-
     private ListViewModel ListViewModel;
     View view;
     DataBaseHelper databaseHelper;
-    List<DeadlineViewModel> deadlinelist = new ArrayList<DeadlineViewModel>();
     DeadlinesAdapter deadlinesAdapter;
     DeadlineViewModel deadline = new DeadlineViewModel();
+    List<DeadlineViewModel> deadlinelist = new ArrayList<DeadlineViewModel>();
     androidx.recyclerview.widget.RecyclerView RecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_list, container, false);
+        // inicialization
         RecyclerView = (RecyclerView) view.findViewById(R.id.rvDeadline);
         databaseHelper = new DataBaseHelper(getContext());
 
+        //fetching data
         deadlinelist = deadline.displayData(getContext());
+
+        //using Adapter
         deadlinesAdapter = new DeadlinesAdapter(getContext(), deadlinelist);
         RecyclerView.setAdapter(deadlinesAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //sorting according to date
         Collections.sort(deadlinelist,DeadlineViewModel.DeadlineDateComparator);
         deadlinesAdapter.notifyDataSetChanged();
 
