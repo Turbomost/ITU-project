@@ -43,6 +43,7 @@ public class DeadlinesAdapter extends RecyclerView.Adapter<DeadlinesAdapter.View
         return viewHolder;
     }
 
+    //sets values to textviews and checkbox, changes status of deadline if checkbox clicked
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DataBaseHelper db = new DataBaseHelper(context.getApplicationContext());
