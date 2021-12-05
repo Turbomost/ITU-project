@@ -1,3 +1,8 @@
+/*
+ * LoginActivity.java
+ * Author     : xbella01
+ *
+ */
 package com.example.wis.ui.login;
 
 

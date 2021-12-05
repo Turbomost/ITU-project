@@ -1,5 +1,7 @@
 package com.example.wis.Models;
-
+/*
+ * Author     : xbella01
+ */
 public class UserModel {
     private int user_id;
     private String user_login;

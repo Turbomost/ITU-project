@@ -1,3 +1,9 @@
+/*
+ * DataBaseHelper.java
+ * Author     : xbella01
+ * Creating database, filling with data and creating function for manipulation with database
+ */
+
 package com.example.wis.Data;
 
 import android.content.ContentValues;
@@ -20,7 +26,10 @@ import com.example.wis.Models.UserSubjectModel;
 import java.util.ArrayList;
 import java.util.List;
 
-//Data management
+/*
+---------------CREATING AND FILLING DATABASE----------------
+ */
+
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "USER_TABLE";
     public static final String COLUMN_USER_ID = "USER_ID";
@@ -140,6 +149,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
 
     }
+
+    /*
+     ---------------FUNCTIONS FOR WORK WITH DATABASE----------------
+    */
 
     //Inserting item to table
 
@@ -298,23 +311,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean UserLectureStatusCheck(int subject_id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        String queryString = "SELECT * FROM " + USER_LECTURE_TABLE + " INNER JOIN " + LECTURE_TABLE + " ON " + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " = " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " WHERE (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + subject_id + ") AND (" + USER_LECTURE_TABLE + "." + COLUMN_USER_LECTURE_STATUS + " = 1) ";
-        Cursor cursor = db.rawQuery(queryString, null);
-        int count = cursor.getCount();
-
-        cursor.close();
-        close();
-
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 
     //deleting
     public void deleteAllUsers() {
@@ -671,8 +667,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public int getUserExcerciseStatus(int user_id, int excercise_id) {
-
-
         String queryString = "SELECT " + COLUMN_USER_LECTURE_STATUS + " FROM " + USER_LECTURE_TABLE + " WHERE (" + COLUMN_USER_ID + " = \"" + user_id + "\") AND (" + COLUMN_LECTURE_ID + " = \"" + excercise_id + "\")";
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -715,7 +709,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
-    //login validation
+    //checking
+
     public boolean checkUserExist(Context context, String username, String password) {
 
         String queryString = "SELECT * FROM " + USER_TABLE + " WHERE (" + COLUMN_USER_LOGIN + " = \"" + username + "\") AND (" + COLUMN_USER_PASSWORD + " = \"" + password + "\")";
@@ -737,9 +732,51 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean UserLectureStatusCheck(int subject_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String queryString = "SELECT * FROM " + USER_LECTURE_TABLE + " INNER JOIN " + LECTURE_TABLE + " ON " + USER_LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " = " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + " WHERE (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + subject_id + ") AND (" + USER_LECTURE_TABLE + "." + COLUMN_USER_LECTURE_STATUS + " = 1) ";
+        Cursor cursor = db.rawQuery(queryString, null);
+        int count = cursor.getCount();
+
+        cursor.close();
+        close();
+
+        if (count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public int CheckSubjectShortcut(String shortcut, int user_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryString = "SELECT " + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + SUBJECT_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + "ON" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + "WHERE (" + SUBJECT_TABLE + "." + COLUMN_SUBJECT_SHORTCUT + "= \"" +shortcut+ "\") AND (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") ";
+        Cursor cursor = db.rawQuery(queryString, null);
+        int count = cursor.getCount();
+        if (count > 0) {
+            return cursor.getInt(0);
+        } else {
+            return -1;
+        }
+
+    }
+
     //cursor creating
 
     public Cursor getUserDeadlines(int user_id) {
+        List<DeadlineModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        return cursor;
+    }
+
+    public Cursor geActiveUserDeadlines(int user_id) {
         List<DeadlineModel> returnList = new ArrayList<>();
 
         String queryString = "SELECT " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_ID + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_NAME + ", " + DEADLINE_TABLE + "." + COLUMN_DEADLINE_TIME + ", " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " FROM " + DEADLINE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + DEADLINE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE " + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id;

@@ -1,3 +1,7 @@
+/*
+ * Author     : xbella01
+ */
+
 package com.example.wis.Models;
 
 import android.content.Context;

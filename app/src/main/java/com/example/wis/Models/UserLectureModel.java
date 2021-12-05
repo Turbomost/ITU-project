@@ -1,3 +1,6 @@
+/*
+ * Author     : xbella01
+ */
 package com.example.wis.Models;
 
 public class UserLectureModel {
