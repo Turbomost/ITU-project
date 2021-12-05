@@ -33,8 +33,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final String LECTURE_TABLE = "LECTURE_TABLE";
     public static final String COLUMN_LECTURE_ID = "LECTURE_ID";
+    public static final String COLUMN_LECTURE_DAY = "LECTURE_DAY";
     public static final String COLUMN_LECTURE_START = "LECTURE_START";
     public static final String COLUMN_LECTURE_END = "LECTURE_END";
+    public static final String COLUMN_LECTURE_NAME = "LECTURE_NAME";
     public static final String COLUMN_LECTURE_TYPE = "LECTURE_TYPE";
 
     public static final String USER_SUBJECT_TABLE = "USER_SUBJECT_TABLE";
@@ -61,7 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + DEADLINE_TABLE + " (" + COLUMN_DEADLINE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_DEADLINE_NAME + " TEXT, " + COLUMN_DEADLINE_TIME + " TEXT," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
-        createTableStatement = "CREATE TABLE " + LECTURE_TABLE + " (" + COLUMN_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_LECTURE_START + " TEXT, " + COLUMN_LECTURE_END + " TEXT," + COLUMN_LECTURE_TYPE + " TEXT," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
+        createTableStatement = "CREATE TABLE " + LECTURE_TABLE + " (" + COLUMN_LECTURE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_LECTURE_DAY + " TEXT, " + COLUMN_LECTURE_START + " TEXT, " + COLUMN_LECTURE_END + " TEXT, " + COLUMN_LECTURE_NAME + " TEXT, " + COLUMN_LECTURE_TYPE + " TEXT, " + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
         createTableStatement = "CREATE TABLE " + USER_SUBJECT_TABLE + " (" + COLUMN_USER_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_ID + " INTEGER," + COLUMN_SUBJECT_ID + " INTEGER, FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + USER_TABLE + " (" + COLUMN_USER_ID + ") , FOREIGN KEY (" + COLUMN_SUBJECT_ID + ") REFERENCES " + SUBJECT_TABLE + " (" + COLUMN_SUBJECT_ID + ") )";
         sqLiteDatabase.execSQL(createTableStatement);
@@ -85,19 +87,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE + " VALUES (3, \"Půlsemestrální písemka\",\"13-01-2022\", 3)");
         sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE + " VALUES (4, \"Projekt\",\"21-01-2022\", 7)");
         sqLiteDatabase.execSQL("INSERT INTO " + DEADLINE_TABLE + " VALUES (5, \"Projekt 1\",\"11-01-2022\", 5)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (1, \"Wed 08:00\", \"Wed 10:50\", \"p\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (2, \"Fri 13:00\", \"Fri 15:50\", \"p\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (3, \"Wed 14:00\", \"Wed 16:50\", \"p\",2)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (4, \"Wed 11:00\", \"Wed 13:50\", \"p\",3)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (5, \"Mon 09:00\", \"Mon 10:50\", \"p\",4)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (6, \"Mon 12:00\", \"Mon 13:50\", \"p\",6)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (7, \"Thu 15:00\", \"Thu 17:50\", \"p\",7)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (8, \"Tue 10:00\", \"Tue 11:50\", \"c\",4)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (9, \"Tue 12:00\", \"Tue 13:50\", \"c\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (10, \"Mon 15:00\", \"Mon 16:50\", \"c\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (11, \"Tue 14:00\", \"Tue 16:50\", \"c\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (12, \"Thu 12:00\", \"Thu 13:50\", \"c\",1)");
-        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (13, \"Thu 10:00\", \"Tue 11:50\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (1, \"Wed\", \"08:00\", \"10:50\", \"p\", \"p\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (2, \"Fri\",\"13:00\", \"15:50\", \"p\",\"p\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (3, \"Wed\",\"14:00\", \"16:50\",\"p\", \"p\",2)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (4, \"Wed\",\"11:00\", \"13:50\",\"p\", \"p\",3)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (5, \"Mon\",\"09:00\", \"10:50\",\"p\", \"p\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (6, \"Mon\",\"12:00\", \"13:50\",\"p\", \"p\",6)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (7, \"Thu\",\"15:00\", \"17:50\",\"p\", \"p\",7)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (8, \"Tue\",\"10:00\", \"11:50\",\"Vítovec\", \"c\",4)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (9, \"Tue\",\"12:00\", \"13:50\",\"František Grezl\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (10,\"Mon\",\"15:00\", \"16:50\",\"Martin Kocour\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (11,\"Tue\",\"14:00\", \"16:50\",\"Jiří Hanák\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (12,\"Thu\",\"12:00\", \"13:50\",\"Anna Silnova\", \"c\",1)");
+        sqLiteDatabase.execSQL("INSERT INTO " + LECTURE_TABLE + " VALUES (13,\"Thu\",\"10:00\", \"11:50\",\"Jiři Novak\", \"c\",1)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (1,1,1)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (2,1,2)");
         sqLiteDatabase.execSQL("INSERT INTO " + USER_SUBJECT_TABLE + " VALUES (3,1,3)");
@@ -176,8 +178,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_LECTURE_ID, lecture.getLecture_id());
+        values.put(COLUMN_LECTURE_DAY, lecture.getLecture_day());
         values.put(COLUMN_LECTURE_START, lecture.getLecture_start());
         values.put(COLUMN_LECTURE_END, lecture.getLecture_end());
+        values.put(COLUMN_LECTURE_NAME, lecture.getLecture_name());
         values.put(COLUMN_LECTURE_TYPE, lecture.getLecture_type());
         values.put(COLUMN_SUBJECT_ID, lecture.getSubject_id());
 
@@ -475,12 +479,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int lecture_id = cursor.getInt(0);
-                String lecture_start = cursor.getString(1);
-                String lecture_end = cursor.getString(2);
-                String lecture_type = cursor.getString(3);
-                int subject_id = cursor.getInt(4);
+                String lecture_day = cursor.getString(1);
+                String lecture_start = cursor.getString(2);
+                String lecture_end = cursor.getString(3);
+                String lecture_name = cursor.getString(4);
+                String lecture_type = cursor.getString(5);
+                int subject_id = cursor.getInt(6);
 
-                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
+                LectureModel newmodel = new LectureModel(lecture_id, lecture_day, lecture_start, lecture_end, lecture_name, lecture_type, subject_id);
                 returnList.add(newmodel);
 
             } while (cursor.moveToNext());
@@ -508,12 +514,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int lecture_id = cursor.getInt(0);
-                String lecture_start = cursor.getString(1);
-                String lecture_end = cursor.getString(2);
-                String lecture_type = cursor.getString(3);
-                int subject_id = cursor.getInt(4);
+                String lecture_day = cursor.getString(1);
+                String lecture_start = cursor.getString(2);
+                String lecture_end = cursor.getString(3);
+                String lecture_name = cursor.getString(4);
+                String lecture_type = cursor.getString(5);
+                int subject_id = cursor.getInt(6);
 
-                LectureModel newmodel = new LectureModel(lecture_id, lecture_start, lecture_end, lecture_type, subject_id);
+                LectureModel newmodel = new LectureModel(lecture_id, lecture_day, lecture_start, lecture_end, lecture_name, lecture_type, subject_id);
                 returnList.add(newmodel);
 
             } while (cursor.moveToNext());
@@ -811,11 +819,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         List<LectureModel> returnList = new ArrayList<>();
 
-        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + "=" + subject_id +") ";
+        String queryString = "SELECT " + LECTURE_TABLE + "." + COLUMN_LECTURE_ID + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_DAY + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_START + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_END + ", "+ LECTURE_TABLE + "." + COLUMN_LECTURE_NAME + ", " + LECTURE_TABLE + "." + COLUMN_LECTURE_TYPE + " FROM " + LECTURE_TABLE + " INNER JOIN " + USER_SUBJECT_TABLE + " ON " + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + " = " + USER_SUBJECT_TABLE + "." + COLUMN_SUBJECT_ID + " WHERE (" + USER_SUBJECT_TABLE + "." + COLUMN_USER_ID + " = " + user_id + ") AND (" + LECTURE_TABLE + "." + COLUMN_SUBJECT_ID + "=" + subject_id +") ";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
-
 
         return cursor;
 

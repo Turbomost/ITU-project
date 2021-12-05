@@ -40,9 +40,10 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
         Integer subject_ID = Integer.valueOf((SharedPref.readSharedSetting(context, "SubjectID", "-1")));
         int pos = position;
         ExcerciseViewModel item = excerciselist.get(position);
-        holder.colStart.setText(String.valueOf(item.getExcercise_start()));
+        holder.colDay.setText(String.valueOf(item.getExcercise_day()));
+        holder.colStart.setText(String.valueOf(item.getExcercise_start())+"-");
         holder.colEnd.setText(String.valueOf(item.getExcercise_end()));
-        holder.colName.setText("cvičení");
+        holder.colName.setText(String.valueOf(item.getExcercise_name()));
         if (selectedPosition == -1) {
             holder.cbDone.setChecked(toBoolean(item.getExcercise_status()));
         } else {
@@ -54,7 +55,6 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
 
             }
         }
-
         holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,6 +81,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView colDay;
         TextView colStart;
         TextView colEnd;
         TextView colName;
@@ -88,6 +89,7 @@ public class ExcercisesAdapter extends RecyclerView.Adapter<ExcercisesAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            colDay = itemView.findViewById(R.id.daytxt);
             colStart = itemView.findViewById(R.id.starttxt);
             colEnd = itemView.findViewById(R.id.endtxt);
             colName = itemView.findViewById(R.id.lecturetxt);

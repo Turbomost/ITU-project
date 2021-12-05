@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +39,7 @@ public class ExcerciseActivity extends AppCompatActivity {
         excerciseAdapter = new ExcercisesAdapter(this, excerciseList);
         RecyclerView.setAdapter(excerciseAdapter);
         RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Collections.sort(excerciseList, ExcerciseViewModel.ExcerciseTimeComparator);
-        excerciseAdapter.notifyDataSetChanged();
+
 
         ImageButton btn_logout = (ImageButton) findViewById(R.id.imageButton2);
         btn_logout.setOnClickListener(new View.OnClickListener() {
