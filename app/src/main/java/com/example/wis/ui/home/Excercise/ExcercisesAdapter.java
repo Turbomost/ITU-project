@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
-import com.example.wis.ViewModels.ExcerciseViewModel;
+import com.example.wis.Models.ExcerciseViewModel;
 import com.example.wis.R;
 
 import java.util.List;

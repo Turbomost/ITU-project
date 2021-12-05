@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.wis.Models.DeadlineModel;
 import com.example.wis.Models.LectureModel;
-import com.example.wis.ViewModels.LectureViewModel;
+import com.example.wis.Models.LectureViewModel;
 import com.example.wis.Models.SubjectModel;
 import com.example.wis.Models.UserDeadlineModel;
 import com.example.wis.Models.UserLectureModel;

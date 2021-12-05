@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
-import com.example.wis.ViewModels.ExcerciseViewModel;
+import com.example.wis.Models.ExcerciseViewModel;
 import com.example.wis.ui.login.LoginActivity;
 import com.example.wis.R;
 

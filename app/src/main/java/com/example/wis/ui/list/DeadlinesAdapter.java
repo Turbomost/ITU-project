@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.Data.DataBaseHelper;
-import com.example.wis.ViewModels.DeadlineViewModel;
+import com.example.wis.Models.DeadlineViewModel;
 import com.example.wis.R;
 import com.example.wis.Data.SharedPref;
 

@@ -1,4 +1,4 @@
-package com.example.wis.ViewModels;
+package com.example.wis.Models;
 
 import android.content.Context;
 import android.database.Cursor;

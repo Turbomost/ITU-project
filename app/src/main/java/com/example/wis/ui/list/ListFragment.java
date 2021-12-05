@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wis.ViewModels.DeadlineViewModel;
+import com.example.wis.Models.DeadlineViewModel;
 import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.R;
 import com.example.wis.databinding.FragmentListBinding;
