@@ -80,30 +80,11 @@ public class EventEditActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String formattedString = selectedDate.format(formatter);
 
-
-        // Check if name isn't empty
-        if (eventName.equals("")) {
-            Toast.makeText(this, "Jméno termínu je prázdné!", Toast.LENGTH_SHORT).show();
+        String text = EventModel.saveEvent(eventName, formattedString, subjectName, this, dModel);
+        if (text != "") {
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Connect to database
-        DataBaseHelper db = new DataBaseHelper(this);
-        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(this, "UserID", "-1")));
-        Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
-
-        // Check if subject exists
-        if (subject_ID == -1) {
-            Toast.makeText(this, "Zkratka předmětu neexistuje!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Set up new DeadlineModel
-        dModel = new DeadlineModel();
-        dModel.setSubject_id(subject_ID);
-        dModel.setDeadline_time(formattedString);
-        dModel.setDeadline_name(eventName);
-        db.insertDeadline(dModel);
 
         finish();
     }

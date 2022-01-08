@@ -6,7 +6,10 @@
 
 package com.example.wis.ui.calendar;
 
+import android.app.Activity;
+
 import com.example.wis.Data.DataBaseHelper;
+import com.example.wis.Data.SharedPref;
 import com.example.wis.Models.DeadlineModel;
 
 import java.time.LocalDate;
@@ -35,6 +38,7 @@ public class EventModel {
 
     /**
      * Returns ArrayList of events for given day
+     *
      * @param date    selected date
      * @param db      database
      * @param user_ID actual user ID
@@ -68,6 +72,36 @@ public class EventModel {
         return events;
     }
 
+    /**
+     * Get input parameters and create new event
+     */
+    public static String saveEvent(String eventName, String formattedString,
+                                   String subjectName, Activity current, DeadlineModel dModel) {
+
+        // Check if name isn't empty
+        if (eventName.equals("")) {
+            return "Jméno termínu je prázdné!";
+        }
+
+        // Connect to database
+        DataBaseHelper db = new DataBaseHelper(current);
+        Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(current, "UserID", "-1")));
+        Integer subject_ID = db.CheckSubjectShortcut(subjectName, user_ID);
+
+        // Check if subject exists
+        if (subject_ID == -1) {
+            return "Zkratka předmětu neexistuje!";
+        }
+
+        // Set up new DeadlineModel
+        dModel = new DeadlineModel();
+        dModel.setSubject_id(subject_ID);
+        dModel.setDeadline_time(formattedString);
+        dModel.setDeadline_name(eventName);
+        db.insertDeadline(dModel);
+
+        return "";
+    }
     // Functions for returning and settings parameters
 
     public String getName() {
