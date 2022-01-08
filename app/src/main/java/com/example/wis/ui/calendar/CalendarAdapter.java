@@ -55,15 +55,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         DataBaseHelper db = new DataBaseHelper(context.getApplicationContext());
 
         final LocalDate date = days.get(position);
-        ArrayList<Event> dailyEvents = Event.eventsForDate(date, db, user_ID);
+        ArrayList<EventModel> dailyEvents = EventModel.eventsForDate(date, db, user_ID);
         holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
 
         // Background color of selected date
-        if (date.equals(CalendarUtils.selectedDate))
+        if (date.equals(CalendarModel.selectedDate))
             holder.parentView.setBackgroundColor(Color.LTGRAY);
 
         // Text color of days in current month
-        if (date.getMonth().equals(CalendarUtils.selectedDate.getMonth()))
+        if (date.getMonth().equals(CalendarModel.selectedDate.getMonth()))
             holder.dayOfMonth.setTextColor(Color.BLACK);
 
         // Text color of days outside of the current month
@@ -75,7 +75,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             holder.dayOfMonth.setTextColor(Color.parseColor("#FF2222"));
 
         // Text color of dates with event in current month
-        if (!dailyEvents.isEmpty() && !(date.getMonth().equals(CalendarUtils.selectedDate.getMonth())))
+        if (!dailyEvents.isEmpty() && !(date.getMonth().equals(CalendarModel.selectedDate.getMonth())))
             holder.dayOfMonth.setTextColor(Color.parseColor("#FFBBBB"));
     }
 

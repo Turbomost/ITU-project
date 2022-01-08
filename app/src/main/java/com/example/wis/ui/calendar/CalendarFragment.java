@@ -7,9 +7,9 @@
 
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarUtils.daysInMonthArray;
-import static com.example.wis.ui.calendar.CalendarUtils.monthYearFromDate;
-import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
+import static com.example.wis.ui.calendar.CalendarModel.daysInMonthArray;
+import static com.example.wis.ui.calendar.CalendarModel.monthYearFromDate;
+import static com.example.wis.ui.calendar.CalendarModel.selectedDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,7 +64,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         eventListView = view.findViewById(R.id.eventListView);
 
         // Initialize the calendar
-        CalendarUtils.selectedDate = LocalDate.now();
+        CalendarModel.selectedDate = LocalDate.now();
         super.onCreate(savedInstanceState);
         initWidgets();
         setMonthView();
@@ -75,7 +75,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         button_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                previousMonthAction(v);
+                previousMonthAction();
             }
         });
 
@@ -84,7 +84,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextMonthAction(v);
+                nextMonthAction();
             }
         });
 
@@ -143,8 +143,8 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
      * Set GridLayoutManager and call adapter
      */
     private void setMonthView() {
-        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
+        monthYearText.setText(monthYearFromDate(CalendarModel.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarModel.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
@@ -157,21 +157,17 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
     /**
      * Go to previous month and reload view
-     *
-     * @param view current view
      */
-    public void previousMonthAction(View view) {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+    public void previousMonthAction() {
+        CalendarModel.previousMonthAction();
         setMonthView();
     }
 
     /**
      * Go to next month and reload view
-     *
-     * @param view current view
      */
-    public void nextMonthAction(View view) {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+    public void nextMonthAction() {
+        CalendarModel.nextMonthAction();
         setMonthView();
     }
 
@@ -182,7 +178,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
         DataBaseHelper db = new DataBaseHelper(getContext());
         Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate, db, user_ID);
+        ArrayList<EventModel> dailyEvents = EventModel.eventsForDate(CalendarModel.selectedDate, db, user_ID);
         EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
     }
@@ -191,7 +187,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     @Override
     public void onItemClick(int position, LocalDate date) {
         if (date != null) {
-            CalendarUtils.selectedDate = date;
+            CalendarModel.selectedDate = date;
             setMonthView();
         }
     }

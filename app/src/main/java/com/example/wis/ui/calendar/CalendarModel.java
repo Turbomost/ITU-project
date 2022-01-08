@@ -6,9 +6,7 @@
 
 package com.example.wis.ui.calendar;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 // Calendar functions
-public class CalendarUtils {
+public class CalendarModel {
     public static LocalDate selectedDate;
 
     /**
@@ -27,16 +25,6 @@ public class CalendarUtils {
     public static String formattedDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy");
         return date.format(formatter);
-    }
-
-    /**
-     * Format given time to 'HH:mm'
-     * @param time input time in LocalTime
-     * @return formatted time in String
-     */
-    public static String formattedTime(LocalTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return time.format(formatter);
     }
 
     /**
@@ -68,7 +56,7 @@ public class CalendarUtils {
         YearMonth prevYearMonth = YearMonth.from(prevMonth);
         int prevDaysInMonth = prevYearMonth.lengthOfMonth();
 
-        LocalDate firstOfMonth = CalendarUtils.selectedDate.withDayOfMonth(1);
+        LocalDate firstOfMonth = CalendarModel.selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
         for (int i = 1; i <= 42; i++) {
@@ -82,4 +70,17 @@ public class CalendarUtils {
         return daysInMonthArray;
     }
 
+    /**
+     * Go to previous month
+     */
+    public static void previousMonthAction() {
+        selectedDate = selectedDate.minusMonths(1);
+    }
+
+    /**
+     * Go to next month
+     */
+    public static void nextMonthAction() {
+        selectedDate = selectedDate.plusMonths(1);
+    }
 }

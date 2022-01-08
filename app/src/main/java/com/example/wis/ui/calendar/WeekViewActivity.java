@@ -45,7 +45,7 @@ public class WeekViewActivity extends Fragment {
         // Inflate view from fragment
         view = inflater.inflate(R.layout.fragment_week_view, container, false);
         timetable = view.findViewById(R.id.timetable);
-        CalendarUtils.selectedDate = LocalDate.now();
+        CalendarModel.selectedDate = LocalDate.now();
 
         // Load info from database
         Integer user_ID = Integer.valueOf((SharedPref.readSharedSetting(getContext(), "UserID", "-1")));
@@ -67,7 +67,7 @@ public class WeekViewActivity extends Fragment {
     }
 
     /**
-     * \
+     *
      * Fill timetable with data from given list
      * Whole list is considered as one subject hence it has the same color
      *
@@ -83,7 +83,7 @@ public class WeekViewActivity extends Fragment {
             LectureViewModel Item = list.get(i);
 
             // DAY
-            schedule.setDay(dayToInt(Item.getLecture_day()));
+            schedule.setDay(WeekViewModel.dayToInt(Item.getLecture_day()));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
 
             // TYPE
@@ -107,26 +107,4 @@ public class WeekViewActivity extends Fragment {
         timetable.add(schedules);
     }
 
-    /**
-     * Returns day in work week from the given string
-     * If the string does not match day in the work week returns 7
-     * @param lecture_day Mon, Tue, Wed, Thu, Fri
-     * @return integer representing day in week
-     */
-    private int dayToInt(String lecture_day) {
-        switch (lecture_day) {
-            case "Mon":
-                return 0;
-            case "Tue":
-                return 1;
-            case "Wed":
-                return 2;
-            case "Thu":
-                return 3;
-            case "Fri":
-                return 4;
-            default:
-                return 7;
-        }
-    }
 }

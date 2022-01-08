@@ -5,7 +5,7 @@
  */
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarUtils.selectedDate;
+import static com.example.wis.ui.calendar.CalendarModel.selectedDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,17 +24,14 @@ import com.example.wis.Models.DeadlineModel;
 import com.example.wis.R;
 import com.example.wis.ui.login.LoginActivity;
 
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 // Adding new value
 public class EventEditActivity extends AppCompatActivity {
     private EditText eventNameET;
-    private TextView eventDateTV, SubjectNameET;
-    private LocalTime time;
+    private TextView eventDateTV;
+    private TextView SubjectNameET;
     private DeadlineModel dModel;
 
     // Set basic values
@@ -44,7 +41,7 @@ public class EventEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
-        eventDateTV.setText(CalendarUtils.formattedDate(selectedDate));
+        eventDateTV.setText(CalendarModel.formattedDate(selectedDate));
 
         // Set up top toolbar
         Toolbar toolbar = findViewById(R.id.topBar);
@@ -107,32 +104,6 @@ public class EventEditActivity extends AppCompatActivity {
         dModel.setDeadline_time(formattedString);
         dModel.setDeadline_name(eventName);
         db.insertDeadline(dModel);
-
-        // Set time for events
-        /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HH:mm");
-        try {
-            time = LocalTime.parse(eventTimeTV.getText(), formatter);
-        } catch (Exception a) {
-            try {
-                time = LocalTime.parse(eventTimeTV.getText(), formatter2);
-            } catch (Exception b) {
-                // return;
-                time = LocalTime.parse("00:00");
-            }
-        }*/
-
-        // Store data into list
-        //Event newEvent = new Event(eventName, selectedDate, time, subjectName);
-        //Event.eventsList.add(newEvent);
-
-        // Sort data
-        /* Collections.sort(Event.eventsList, new Comparator<Event>() {
-            @Override
-            public int compare(Event o1, Event o2) {
-                return o1.getTime().compareTo(o2.getTime());
-            }
-        }); */
 
         finish();
     }

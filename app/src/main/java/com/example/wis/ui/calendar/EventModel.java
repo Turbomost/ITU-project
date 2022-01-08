@@ -16,17 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Functions for events
-public class Event {
+public class EventModel {
 
     // ArrayList for events
-    public static ArrayList<Event> eventsList = new ArrayList<>();
+    public static ArrayList<EventModel> eventsList = new ArrayList<>();
     private String name;
     private LocalDate date;
     private LocalTime time;
     private String subject;
 
     // Time is no longer being used
-    public Event(String name, LocalDate date, LocalTime time, String subject) {
+    public EventModel(String name, LocalDate date, LocalTime time, String subject) {
         this.name = name;
         this.date = date;
         this.time = time;
@@ -40,15 +40,15 @@ public class Event {
      * @param user_ID actual user ID
      * @return ArrayList
      */
-    public static ArrayList<Event> eventsForDate(LocalDate date, DataBaseHelper db, Integer user_ID) {
-        ArrayList<Event> events = new ArrayList<>();
+    public static ArrayList<EventModel> eventsForDate(LocalDate date, DataBaseHelper db, Integer user_ID) {
+        ArrayList<EventModel> events = new ArrayList<>();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String formattedString = date.format(formatter);
         List<DeadlineModel> dList;
         dList = db.getUserDeadlinesList(user_ID, formattedString);
 
-        for (Event event : eventsList) {
+        for (EventModel event : eventsList) {
             if (event.getDate().equals(date))
                 events.add(event);
         }
@@ -56,7 +56,7 @@ public class Event {
         for (DeadlineModel model : dList) {
             if (db.CheckDeadlineActivity(model.getDeadline_id()) &&
                     !(LocalDate.parse(model.getDeadline_time(), formatter).isBefore(LocalDate.now()))) {
-                Event event = new Event(
+                EventModel event = new EventModel(
                         model.getDeadline_name(),
                         LocalDate.parse(model.getDeadline_time(), formatter),
                         LocalTime.MIDNIGHT,

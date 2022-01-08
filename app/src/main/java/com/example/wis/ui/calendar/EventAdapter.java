@@ -23,15 +23,15 @@ import com.example.wis.R;
 import java.util.List;
 
 // Adapter for events
-public class EventAdapter extends ArrayAdapter<Event> {
-    public EventAdapter(@NonNull Context context, List<Event> events) {
+public class EventAdapter extends ArrayAdapter<EventModel> {
+    public EventAdapter(@NonNull Context context, List<EventModel> events) {
         super(context, 0, events);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Event event = getItem(position);
+        EventModel event = getItem(position);
 
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_cell, parent, false);
