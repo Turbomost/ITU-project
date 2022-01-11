@@ -4,7 +4,7 @@
  * Calendar methods
  */
 
-package com.example.wis.ui.calendar;
+package com.example.wis.Models;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

@@ -4,7 +4,7 @@
  * ViewModel for calendar fragment
  */
 
-package com.example.wis.ui.calendar;
+package com.example.wis.Models;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

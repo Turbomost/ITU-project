@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.wis.Models.EventModel;
 import com.example.wis.R;
 
 import java.util.List;

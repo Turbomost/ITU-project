@@ -4,13 +4,12 @@
  * Set up Event class
  */
 
-package com.example.wis.ui.calendar;
+package com.example.wis.Models;
 
 import android.app.Activity;
 
 import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
-import com.example.wis.Models.DeadlineModel;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

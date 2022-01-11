@@ -7,9 +7,9 @@
 
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarModel.daysInMonthArray;
-import static com.example.wis.ui.calendar.CalendarModel.monthYearFromDate;
-import static com.example.wis.ui.calendar.CalendarModel.selectedDate;
+import static com.example.wis.Models.CalendarModel.daysInMonthArray;
+import static com.example.wis.Models.CalendarModel.monthYearFromDate;
+import static com.example.wis.Models.CalendarModel.selectedDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +31,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
+import com.example.wis.Models.CalendarModel;
+import com.example.wis.Models.CalendarViewModel;
+import com.example.wis.Models.EventModel;
 import com.example.wis.R;
 import com.example.wis.databinding.FragmentCalendarBinding;
 
@@ -45,7 +48,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     Button button_next;
     Button button_new_event;
 
-    private com.example.wis.ui.calendar.CalendarViewModel calendarViewModel;
+    private CalendarViewModel calendarViewModel;
     private FragmentCalendarBinding binding;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -103,7 +106,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         });
 
         // Bottom navigation
-        calendarViewModel = new ViewModelProvider(this).get(com.example.wis.ui.calendar.CalendarViewModel.class);
+        calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
         final TextView textView = binding.textCalendar;
         calendarViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

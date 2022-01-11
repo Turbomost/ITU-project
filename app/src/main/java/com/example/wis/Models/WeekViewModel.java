@@ -1,4 +1,4 @@
-package com.example.wis.ui.calendar;
+package com.example.wis.Models;
 
 public class WeekViewModel {
 

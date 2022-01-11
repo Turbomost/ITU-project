@@ -5,7 +5,7 @@
  */
 package com.example.wis.ui.calendar;
 
-import static com.example.wis.ui.calendar.CalendarModel.selectedDate;
+import static com.example.wis.Models.CalendarModel.selectedDate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +18,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.wis.Data.DataBaseHelper;
 import com.example.wis.Data.SharedPref;
+import com.example.wis.Models.CalendarModel;
 import com.example.wis.Models.DeadlineModel;
+import com.example.wis.Models.EventModel;
 import com.example.wis.R;
 import com.example.wis.ui.login.LoginActivity;
 
