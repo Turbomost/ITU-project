@@ -1,7 +1,7 @@
 # ITU_WIS
 ## 2021/2022 ITU projekt 
 
-<img src="./other/images/FIT_zkratka_barevne_RGB_CZ.png" width="200">
+<img src="./Other/images/FIT_zkratka_barevne_RGB_CZ.png" width="200">
 
 Aplikace pro Android
 
